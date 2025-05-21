@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function SignUp() {
   // state voor het formulier
@@ -11,31 +10,12 @@ function SignUp() {
   // state voor functionaliteit
   const [error, toggleError] = useState(false);
   const [loading, toggleLoading] = useState(false);
-  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     toggleError(false);
     toggleLoading(true);
 
-    try {
-      await axios.post('http://localhost:3000/register', {
-        email: email,
-        password: password,
-        username: username,
-      });
-
-      // Let op: omdat we geen axios Canceltoken gebruiken zul je hier een memory-leak melding krijgen.
-      // Om te zien hoe je een canceltoken implementeerd kun je de bonus-branch bekijken!
-
-      // als alles goed gegaan is, linken we dyoor naar de login-pagina
-      navigate('/signin');
-    } catch(e) {
-      console.error(e);
-      toggleError(true);
-    }
-
-    toggleLoading(false);
   }
 
   return (
