@@ -17,26 +17,26 @@ function NavBar() {
           </span>
             </Link>
 
+            <button
+                type="button"
+            >
+                Log uit
+            </button>
+
+            <div>
                 <button
                     type="button"
+                    onClick={() => navigate('/signin')}
                 >
-                    Log uit
+                    Log in
                 </button>
-
-                <div>
-                    <button
-                        type="button"
-                        onClick={() => navigate('/signin')}
-                    >
-                        Log in
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigate('/signup')}
-                    >
-                        Registreren
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    onClick={() => navigate('/signup')}
+                >
+                    Registreren
+                </button>
+            </div>
 
         </nav>
     );

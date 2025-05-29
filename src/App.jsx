@@ -1,12 +1,12 @@
 import {useContext} from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import Profile from './pages/Profile';
-import Home from './pages/Home';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import Profile from './pages/profile/Profile.jsx';
+import Home from './pages/home/Home.jsx';
+import SignIn from './pages/signin/SignIn.jsx';
+import SignUp from './pages/signup/SignUp.jsx';
 import './App.css';
 import { AuthContext } from './context/AuthContext';
-import NavBar from './components/NavBar';
+import NavBar from './components/navbar/NavBar.jsx';
 
 function App() {
     const { isAuth } = useContext(AuthContext);
