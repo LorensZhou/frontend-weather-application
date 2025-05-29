@@ -1,0 +1,62 @@
+
+.forecast-item{
+    margin: 10px 0;
+}
+
+.back-link{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+}
+
+.header-forecast{
+    margin: 20px 0;
+}
+
+.forecast-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow-box toegevoegd */
+    border-radius: 8px; /* Border-radius toegevoegd */
+    overflow: hidden; /* Zorgt ervoor dat de border-radius correct wordt toegepast op de interne elementen */
+}
+
+.forecast-table th,
+.forecast-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.forecast-table th {
+    background-color: #f2f2f2;
+}
+
+.forecast-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.forecast-table tr:hover {
+    background-color: #f0f0f0;
+}
+
+/* Extra styling voor de header rij */
+.forecast-table thead tr {
+    background-color: #f2f2f2;
+}
+
+/* Extra styling voor de laatste rij */
+.forecast-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.weather-icon-style{
+    max-width: 40px;
+}
+
+.weather-icon-td{
+    background-color: lightgray;
+}
