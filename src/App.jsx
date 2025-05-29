@@ -8,6 +8,7 @@ import './App.css';
 import { AuthContext } from './context/AuthContext';
 import NavBar from './components/navbar/NavBar.jsx';
 import CitiesPage from "./pages/citiesPage/CitiesPage.jsx";
+import CityDetailPage from "./pages/cityDetailPage/CityDetailPage.jsx";
 
 function App() {
     const { isAuth } = useContext(AuthContext);
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/signin" element={<SignIn />}/>
                     <Route path="/signup" element={<SignUp />}/>
                     <Route path="/cities" element={<CitiesPage />}/>
+                    <Route path="/cities/:id" element={<CityDetailPage />}/>
                 </Routes>
             </div>
         </>
