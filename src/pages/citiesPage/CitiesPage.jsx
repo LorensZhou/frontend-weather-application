@@ -2,6 +2,7 @@
 import cities from '../../constants/cities.js';
 import './CitiesPage.css';
 import {Link} from 'react-router-dom';
+import Button from '../../components/button/Button.jsx';
 
 
 function CitiesPage() {
@@ -11,9 +12,10 @@ function CitiesPage() {
             <p>Hier komt de functionaliteit voor de stad pagina.</p>
             <form>
                 <input type="text" placeholder="Zoekterm" />
-               <button type = "submit">
+                <Button type="submit"
+                        variant="primary">
                     Zoeken stad
-                </button>
+                </Button>
             </form>
             <div className="cities-container">
                 <ul>
