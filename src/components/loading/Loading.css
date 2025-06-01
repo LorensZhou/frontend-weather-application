@@ -1,0 +1,7 @@
+
+.loading-text{
+    font-size: 1em;
+    color: var(--black-norm-text);
+    text-align: center;
+    margin: 0;
+}

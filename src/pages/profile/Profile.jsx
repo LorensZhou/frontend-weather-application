@@ -6,6 +6,8 @@ import './Profile.css';
 import SearchableInput from '../../components/searchableInput/SearchableInput.jsx';
 import cities from '../../constants/cities.js';
 import getLocalStorageCities from '../../helper/getLocalStorageCities.js';
+import Loading from '../../components/loading/Loading.jsx';
+import ErrorMessage from '../../components/errorMessage/ErrorMessage.jsx';
 import Button from "../../components/button/Button.jsx";
 
 function Profile() {
@@ -116,8 +118,8 @@ function Profile() {
             <h2>Opslaan favoriete plaatsen</h2>
             <p>Hier komt de functionaliteit voor toevoegen, verwijderen en aanpassen van
                 favoriete plaatsen die kan worden gebruikt voor de zoekfunctie.</p>
-            {loading && <p>De data van de gebruiker wordt opgehaald.....</p>}
-            {error && <p>Er is een fout opgetreden bij het ophalen van de gebruiker data.</p> }
+            {loading && <Loading loadingText="De data van de gebruiker wordt opgehaald....."/>}
+            {error && <ErrorMessage message="Er is een fout opgetreden bij het ophalen van de gebruiker data."/> }
 
             <section className="search-section">
                 <form className="search-form-flex" onSubmit={handleSubmit}>
