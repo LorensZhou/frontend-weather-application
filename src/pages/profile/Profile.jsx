@@ -6,6 +6,7 @@ import './Profile.css';
 import SearchableInput from '../../components/searchableInput/SearchableInput.jsx';
 import cities from '../../constants/cities.js';
 import getLocalStorageCities from '../../helper/getLocalStorageCities.js';
+import sortedWithoutEmptyString from '../../helper/sortedWithoutEmptyString.js';
 import Loading from '../../components/loading/Loading.jsx';
 import ErrorMessage from '../../components/errorMessage/ErrorMessage.jsx';
 import Button from "../../components/button/Button.jsx";
@@ -41,13 +42,43 @@ function Profile() {
     const handleSearch5 = (value) => setCity5(value);
     const handleSearch6 = (value) => setCity6(value);
 
-    function handleEditCities() {
+    function citiesDisabled(toggle){
+        tglCity1Disabled(toggle);
+        tglCity2Disabled(toggle);
+        tglCity3Disabled(toggle);
+        tglCity4Disabled(toggle);
+        tglCity5Disabled(toggle);
+        tglCity6Disabled(toggle);
+    }
 
+    function handleEditCities() {
+        citiesDisabled(false);
     }
 
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
+        const allCities = [city1, city2, city3, city4, city5, city6,];
 
+        const sortedCityNames =  sortedWithoutEmptyString(allCities);
+        if (typeof localStorage !== "undefined") { // Dubbele check localStorage beschikbaarheid
+            const numEntries = sortedCityNames.length;
+            sortedCityNames.forEach((city, index) => {
+                localStorage.setItem( `city${index + 1}`, city ); // opslaan gesorteerde plaatsnamen in localStorage
+            });
+            for(let i = numEntries + 1; i < 7; i++) {
+                localStorage.setItem( `city${i}`, "" ); //opslaan lege strings in localStorage
+            }
+            //plaatsvelden vullen met juiste plaatsnamen zonder dubbele plaatsen
+            setCity1(localStorage.getItem("city1"));
+            setCity2(localStorage.getItem("city2"));
+            setCity3(localStorage.getItem("city3"));
+            setCity4(localStorage.getItem("city4"));
+            setCity5(localStorage.getItem("city5"));
+            setCity6(localStorage.getItem("city6"));
+
+            citiesDisabled(true);
+            tglSaveBtnDisabled(true);
+        }
     }
 
     useEffect(() => {
