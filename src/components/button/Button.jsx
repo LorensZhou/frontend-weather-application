@@ -6,7 +6,7 @@ function Button({ type, children, onClick, disabled = false, variant }) {
         <button type={type}
                 disabled={disabled}
                 onClick={onClick}
-                className={variant === 'primary' ? 'button button-primary' : 'button button-secundary'}>
+                className={variant === "primary" ? "button button-primary" : "button button-secundary"}>
             {children}
         </button>
     );

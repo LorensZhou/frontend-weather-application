@@ -1,0 +1,46 @@
+
+.home-container{
+    display: flex;
+    flex-direction: column;
+    /*min-height: 50vh;*/
+}
+
+.banner-home{
+    background-image: url('../../assets/24h-15h-Mountain-Picture.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+    justify-content: center;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; /* Allows sections to wrap on smaller screens */
+    justify-content: center; /* Center sections horizontally */
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.text-section {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background*/
+    flex: 1 1 300px; /* Distribute space and set a minimum width */
+    margin: 20px 10px;
+    padding: 20px;
+}
+
+.auth-section {
+    /*background-color: rgba(220, 220, 220, 0.8); !* Semi-transparent background*!*/
+    text-align: center;
+    height: 50px;
+    /*flex: 1 1 300px; !* Distribute space and set a minimum width *!*/
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 20px;
+    margin-top: -30px;
+}

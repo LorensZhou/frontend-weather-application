@@ -1,16 +1,36 @@
 .button {
     border: none;
     font-weight: 600;
-    border-radius: 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    min-width: 100px;
+    min-height: 25px;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
+/*authenticatie button opmaak*/
 .button-primary {
-    background-color: var(--background-white);
+    background-color: var(--background-lightgrey);
     color: var(--black-norm-text);
     display: inline;
 }
 
+/*weergegevens button opmaak en overige*/
 .button-secundary {
     font-weight: bold;
     font-size: 0.9rem;
+    padding: 8px 15px;
+    background-color: var(--background-dark-green-blue);
+    color: white;
+    cursor: pointer;
+}
+
+.button-secundary:disabled,
+.button-primary:disabled{
+    color: #0C0C0C;
+    background-color:var(--backgroudn-mediumgrey);
+    border: 1px solid var(--background-button-lightgray);
 }
