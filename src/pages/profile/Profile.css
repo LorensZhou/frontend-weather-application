@@ -1,0 +1,100 @@
+
+.link-container{
+    margin: 30px 0;
+}
+
+
+.search-form-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: none;
+    width: 95vw;
+
+    margin: 20px 20px; /* Center the form */
+}
+
+.search-inputs-flex{
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: 2px; /* Spacing between input wrappers */
+    width: 100%;
+    margin-bottom: 20px;
+    flex-direction: row;
+    justify-content: center;
+    border: 1px solid var(--background-grey);
+}
+
+.search-input-wrapper {
+    flex-basis: calc(33% - 7.5px); /* Three items per row with spacing */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    margin: 15px 0;
+}
+
+.search-form-flex .search-container {
+    width: 100%;
+}
+
+.search-form-flex .search-inner {
+    display: flex;
+    align-items: center;
+}
+
+.search-form-flex label {
+    margin-right: 10px;
+}
+
+.search-form-flex input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex-grow: 1; /* Allow input to expand */
+    width: 70px; /* Full width */
+    font-size: 20px;
+}
+
+.search-form-flex .dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-form-flex .dropdown-row {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.search-form-flex .dropdown-row:hover {
+    background-color: #f0f0f0;
+}
+
+.search-form-flex .submit-button-flex,
+.search-form-flex .updating-button-flex{
+    background-color: var(--background-button-lightgray);
+    padding: 10px 20px;
+    font-size: 16px;
+    align-self: center;
+}
+
+.button-container-flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+}
+
+.button-localstorage-cont{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+    border: 1px dashed black;
+}
