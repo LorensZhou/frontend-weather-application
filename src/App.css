@@ -1,4 +1,9 @@
+/*In dit voorbeeld staat alle CSS in één bestand, dit wil je eigenlijk nooit.
+Om de het begrijpen van de bestaande code zo eenvoudig mogelijk te maken,
+is het voor deze opdracht wel gedaan!*/
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&family=Neucha&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
 
 
 /*////////////////////////////////////////////////////////////////////////
@@ -16,8 +21,11 @@ Table of Contents:
 :root{
   --black-norm-text: #0C0C0C;
   --background-grey: #7A7A7A;
+  --background-button-lightgray: #778899FF;
+  --backgroudn-mediumgrey:#e6ebfa;
   --background-lightgrey: #F3F6F9;
   --background-white: #F2F0FF;
+  --background-dark-green-blue: #27394a;
   --purple: #5722CD;
   --blue: #4845E4;
   --pink: #ED4385;
@@ -41,12 +49,13 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Neucha', 'Times New Roman', cursive;
+  font-family: 'PT Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 h1{
   margin: 10px;
 }
+
 
 /*2.Typografie/////////////////////////////////*/
 
@@ -57,7 +66,16 @@ h1{
   display: flex;
   flex-direction: row;
   justify-content: center;
-  border: 2px solid black;
+}
+
+.inner-container{
+  flex-basis: 1200px;
+  flex-grow: 0;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
 }
 
 /*4. Areas//////////////////////////////////////*/
@@ -89,29 +107,40 @@ h1{
   flex-basis: 500px;
 }
 
-.inner-container{
-  flex-basis: 1200px;
-  flex-grow: 0;
-  flex-shrink: 1;
+/*4.2 form*/
+/*Algemene formulier-styling*/
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0 20px;
-  border: 2px dashed orange;
+  background-color:var(--backgroudn-mediumgrey);
+  padding: 32px;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow-box  */
+  border-radius: 4px;
 }
+
+form label {
+  margin: 4px 0;
+  font-weight: bold;
+}
+
+.form-button {
+  width: 100%;
+}
+
 
 /*5. Media Queries//////////////////////////////*/
 html {
   /* voor mobiel */
   font-size: 1rem;
-  background-color: var(--background-grey);
+  background-color: var(--background-lightgrey);
 }
 
 @media screen and (min-width: 900px) {
   /* voor tablets */
   html {
     font-size: 1.1rem;
-    background-color: white;
+    background-color: var(--background-lightgrey);
   }
 }
 
@@ -121,30 +150,6 @@ html {
     font-size: 1.25rem;
     background-color: var(--background-lightgrey);
   }
-}
-
-/*Algemene button styling*/
-button {
-  border-radius: 4px;
-  border: none;
-  /*color: white;*/
-  padding: 8px 16px;
-  background-color: #f5ab00;
-  color: white;
-  font-weight: bold;
-}
-
-/*Zorgt ervoor dat als twee buttons naast elkaar staan, er altijd ruimte tussen blijft*/
-button + button {
-  margin-left: 8px;
-}
-
-button:hover {
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #FAD57F;
 }
 
 a,
@@ -157,64 +162,12 @@ a:hover {
   color: #ea7e1f;
 }
 
-/*Algemene formulier-styling*/
-form {
-  display: flex;
-  flex-direction: column;
-  background-color: #faeab3;
-  padding: 32px;
-  max-width: 300px;
-  border-radius: 4px;
-}
-
-form label {
-  margin: 4px 0;
-  font-weight: bold;
-}
-
-form input {
-  width: 100%;
-  padding: 4px 8px;
-  margin: 6px 0;
-}
-
 h2 {
   margin: 32px 0 24px 0;
 }
 
 .content {
   margin: 32px;
-}
-
-.form-button {
-  width: 100%;
-}
-
-nav {
-  background-color: #0d3b66;
-  color: white;
-  display: flex;
-  padding: 0 32px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-nav a,
-nav a:visited,
-nav a:active {
-  color: white;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 150px;
-}
-
-.logo-container img {
-  width: 40px;
-  margin-right: 8px;
 }
 
 section  {
@@ -225,9 +178,5 @@ section  {
   color: orangered;
 }
 
-/*Zet mij op een element en ik blijf voor altijd draaien!*/
-.loading-icon {
-  width: 16px;
-  height: 16px;
-  animation: rotating 1.5s linear infinite;
-}
+
+
