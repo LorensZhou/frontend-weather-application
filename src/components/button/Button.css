@@ -19,7 +19,7 @@ button:hover {
 }
 
 /*weergegevens button opmaak en overige*/
-.button-secundary {
+.button-secondary {
     font-weight: bold;
     font-size: 0.9rem;
     padding: 8px 15px;
@@ -28,8 +28,17 @@ button:hover {
     cursor: pointer;
 }
 
-.button-secundary:disabled,
-.button-primary:disabled{
+.button-tertiary{
+    background-color: var(--background-lightgrey);
+    color: var(--black-norm-text);
+    display: inline;
+    border: solid 1px black;
+    padding: 0 4px;
+}
+
+.button-primary:disabled,
+.button-secondary:disabled,
+.button-tertiary{
     color: #0C0C0C;
     background-color:var(--backgroudn-mediumgrey);
     border: 1px solid var(--background-button-lightgray);

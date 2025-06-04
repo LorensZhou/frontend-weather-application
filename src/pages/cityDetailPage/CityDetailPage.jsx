@@ -51,7 +51,7 @@ function CityDetailPage() {
             <div className="button-container">
                 <Button  type="button"
                          onClick={fetchWeatherData}
-                         variant="primary">
+                         variant="tertiary">
                     ophalen weervoorspelling per uur
                 </Button>
             </div>

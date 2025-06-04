@@ -6,6 +6,7 @@ import Home from './pages/home/Home.jsx';
 import SignIn from './pages/signin/SignIn.jsx';
 import SignUp from './pages/signup/SignUp.jsx';
 import './App.css';
+import CurrentWeather from './pages/currentWeather/CurrentWeather.jsx';
 import { AuthContext } from './context/AuthContext';
 import NavBar from './components/navbar/NavBar.jsx';
 import CitiesPage from './pages/citiesPage/CitiesPage.jsx';
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/profile" element={isAuth ? <Profile /> : <Navigate to="/signin"/>}/>
                     <Route path="/signin" element={<SignIn />}/>
                     <Route path="/signup" element={<SignUp />}/>
+                    <Route path="/currentWeather" element={<CurrentWeather />}/>
                     <Route path="/cities" element={<CitiesPage />}/>
                     <Route path="/cities/:id" element={<CityDetailPage />}/>
                     <Route path="*" element={<NotFound/>}/>
