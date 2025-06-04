@@ -7,7 +7,7 @@ import weatherCategories from '../../constants/weatherCategories.js';
 import Button from '../../components/button/Button.jsx';
 
 function CurrentWeather() {
-
+    const [searchMethod, setSearchMethod] = useState("");
     const [criteriaDisabled, tglCriteriaDisabled] = useState(true);
     const [cityInputDisabled, tglCityInputDisabled] = useState(true);
     const [formBtnDisabled, tglFormBtnDisabled] = useState(true);
@@ -50,6 +50,28 @@ function CurrentWeather() {
         // Do something with all the search terms (e.g., send to an API)
     };
 
+    useEffect(() => {
+
+        if (searchMethod === "without-location")
+        {
+            tglCriteriaDisabled(false);
+            tglCityInputDisabled(true);
+            tglFormBtnDisabled(false);
+        }
+        else if(searchMethod === "with-location")
+        {
+            tglCriteriaDisabled(false);
+            tglCityInputDisabled(false);
+            tglFormBtnDisabled(false);
+        }
+        else if (searchMethod === "")
+        {
+            tglCriteriaDisabled(true);
+            tglCityInputDisabled(true);
+            tglFormBtnDisabled(true);
+        }
+
+    }, [searchMethod]);
 
     return (
         <>
@@ -60,6 +82,15 @@ function CurrentWeather() {
                         U kunt maximaal 6 locaties opgeven. Als u zoekt zonder locatie, dan worden random 6 locaties voor u geselecteerd. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners in Zuid-Holland.
                         Daarnaast kunt u minimaal een tot maximaal drie criteria's opgeven voor uw voorkeur van weer.</p>
                 </section>
+
+                <div className="search-method-container">
+                    <select name="search" id="search-method" value={searchMethod} onChange={(e) => setSearchMethod(e.target.value)}>
+                        <option value="">--kies een zoekmethode--</option>
+                        <option value="without-location">zoeken zonder locatie</option>
+                        <option value="with-location">zoeken met locatie</option>
+                    </select>
+                </div>
+
 
                 <section className="search-section">
                     <form className="search-form-flex" onSubmit={handleSubmit}>
