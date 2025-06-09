@@ -5,12 +5,20 @@ import cities from '../../constants/cities.js';
 import Input from '../../components/input/Input.jsx';
 import weatherCategories from '../../constants/weatherCategories.js';
 import Button from '../../components/button/Button.jsx';
+import sortedWithoutEmptyString from "../../helper/sortedWithoutEmptyString.js";
+import findCityWeatherData from "../../helper/findCityWeatherData.js";
 
 function CurrentWeather() {
     const [searchMethod, setSearchMethod] = useState("");
     const [criteriaDisabled, tglCriteriaDisabled] = useState(true);
     const [cityInputDisabled, tglCityInputDisabled] = useState(true);
     const [formBtnDisabled, tglFormBtnDisabled] = useState(true);
+    const [loading, tglLoading] = useState(false);
+    const [allSearchTerms, setAllSearchTerms] = useState([]);
+    const [cityData, setCityData] = useState([]);
+    const [errors, setErrors] = useState([]);
+    const [testCityNames, setTestCityNames] = useState(["Rotterdam", "Den Haag", "invalidCity", ""]);
+
 
     const cityNames = cities.map((city) => city.name);
 
@@ -38,17 +46,53 @@ function CurrentWeather() {
 
     const handleSubmit = (event) => {
         event.preventDefault(); // Prevent default form submission
-        const allSearchTerms = [
+        setAllSearchTerms([
             city1,
             city2,
             city3,
             city4,
             city5,
             city6,
-        ];
+        ]);
         console.log("All Search Terms:", allSearchTerms);
         // Do something with all the search terms (e.g., send to an API)
     };
+
+    const handleFetchDataCities = async () => {
+        tglLoading(true);
+        setCityData([]);
+        setErrors([]);
+
+        const citiesWithValues = sortedWithoutEmptyString(testCityNames);
+
+        const promises = citiesWithValues.map(name => findCityWeatherData(name));
+
+        const results = await Promise.allSettled(promises);
+
+        const fulfilledData = [];
+        const rejectedErrors = [];
+
+        results.forEach(result => {
+            if (result.status === 'fulfilled') {
+                fulfilledData.push(result.value); // Hier zit het object { name, geocode, forecasts }
+            } else {
+                // result.reason is nu het Error object dat we hebben gegooid
+                const errorObject = result.reason;
+                const cityName = errorObject.cityName || 'Onbekende stad'; //haal de stadsnaam uit de error
+                const errorMessage = errorObject.message || 'Onbekende fout';
+                rejectedErrors.push({name: cityName, message: errorMessage});
+            }
+        });
+
+        setCityData(fulfilledData);
+        setErrors(rejectedErrors);
+        tglLoading(false);
+
+        console.log("data succesvol:", fulfilledData);
+        console.log("Errors:", rejectedErrors);
+        console.log("results", results);
+    }
+
 
     useEffect(() => {
 
@@ -218,7 +262,9 @@ function CurrentWeather() {
                 </section>
 
                 <section className="display-data-section">
-
+                    <button className="button data-button" onClick={handleFetchDataCities}>
+                        data plaatsen ophalen
+                    </button>
                 </section>
             </div>
 
