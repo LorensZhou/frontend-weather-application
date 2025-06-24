@@ -1,5 +1,5 @@
 
-//Cities with more than 10.000 inhabitants in province South Holland in the Netherlands in 2025.
+//Plaatsen met meer dan 10.000 inwoners in provincie Zuid-Holland in Nederland in 2025.
 const cities = [
     {number: 1, name: 'Rotterdam', inhabitants: 672330},
     {number: 2, name: 'Den Haag', inhabitants: 568419},
@@ -51,7 +51,10 @@ const cities = [
     {number: 48, name: 'Midden-Delfland', inhabitants: 19422},
     {number: 49, name: 'Hardinxveld-Giessendam', inhabitants: 19126},
     {number: 50, name: 'Zoeterwoude', inhabitants: 10142},
+    {number: 51, name: 'Invalidcity', inhabitants: 10000},
 ]
+
+//Invalidcity is een test data voor het testen van de api calls om een error te genereren.
 
 
 export default cities;

@@ -7,6 +7,8 @@ import weatherCategories from '../../constants/weatherCategories.js';
 import Button from '../../components/button/Button.jsx';
 import sortedWithoutEmptyString from "../../helper/sortedWithoutEmptyString.js";
 import findCityWeatherData from "../../helper/findCityWeatherData.js";
+import ForecastTable from "../../components/forecastTable/ForecastTable.jsx";
+import Loading from "../../components/loading/Loading.jsx";
 
 function CurrentWeather() {
     const [searchMethod, setSearchMethod] = useState("");
@@ -14,10 +16,10 @@ function CurrentWeather() {
     const [cityInputDisabled, tglCityInputDisabled] = useState(true);
     const [formBtnDisabled, tglFormBtnDisabled] = useState(true);
     const [loading, tglLoading] = useState(false);
-    const [allSearchTerms, setAllSearchTerms] = useState([]);
+    const [allCitySearchTerms, setAllCitySearchTerms] = useState([]);
     const [cityData, setCityData] = useState([]);
+    const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState(5); // Aantal uren voor de voorspelling
     const [errors, setErrors] = useState([]);
-    const [testCityNames, setTestCityNames] = useState(["Rotterdam", "Den Haag", "invalidCity", ""]);
 
 
     const cityNames = cities.map((city) => city.name);
@@ -44,29 +46,29 @@ function CurrentWeather() {
     const handleTempChange = (event) => setPreferredTemp(event.target.value);
     const handleWindChange = (event) => setPreferredWindSpeed(event.target.value);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
-        setAllSearchTerms([
+        const currentAllCitySearchTerms = [
             city1,
             city2,
             city3,
             city4,
             city5,
             city6,
-        ]);
-        console.log("All Search Terms:", allSearchTerms);
-        // Do something with all the search terms (e.g., send to an API)
-    };
+        ];
 
-    const handleFetchDataCities = async () => {
+        setAllCitySearchTerms(currentAllCitySearchTerms);
+        console.log("All Search Terms:", allCitySearchTerms);
+
         tglLoading(true);
         setCityData([]);
         setErrors([]);
 
-        const citiesWithValues = sortedWithoutEmptyString(testCityNames);
+        const citiesWithValues = sortedWithoutEmptyString(currentAllCitySearchTerms);
 
-        const promises = citiesWithValues.map(name => findCityWeatherData(name));
+        const promises = citiesWithValues.map(name => findCityWeatherData(name, numbersOfHoursForecast));
 
+        //In de results worden alle promises opgeslagen, zowel de fulfilled als de rejected
         const results = await Promise.allSettled(promises);
 
         const fulfilledData = [];
@@ -91,8 +93,20 @@ function CurrentWeather() {
         console.log("data succesvol:", fulfilledData);
         console.log("Errors:", rejectedErrors);
         console.log("results", results);
-    }
 
+        tglCriteriaDisabled(true);
+        tglCityInputDisabled(true);
+        tglFormBtnDisabled(true);
+        setSearchMethod("");
+
+        // Reset the input velden voor de plaatsen
+        setCity1("");
+        setCity2("");
+        setCity3("");
+        setCity4("");
+        setCity5("");
+        setCity6("");
+    };
 
     useEffect(() => {
 
@@ -134,8 +148,7 @@ function CurrentWeather() {
                         <option value="with-location">zoeken met locatie</option>
                     </select>
                 </div>
-
-
+                
                 <section className="search-section">
                     <form className="search-form-flex" onSubmit={handleSubmit}>
                         <div className="search-inputs-flex">
@@ -146,6 +159,7 @@ function CurrentWeather() {
                                     label="plaats 1"
                                     inputId="city1"
                                     inputName="city1"
+                                    initialValue={city1}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
                                 />
@@ -157,6 +171,7 @@ function CurrentWeather() {
                                     label="plaats 2"
                                     inputId="city2"
                                     inputName="city2"
+                                    initialValue={city2}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
                                 />
@@ -168,6 +183,7 @@ function CurrentWeather() {
                                     label="plaats 3"
                                     inputId="city3"
                                     inputName="city3"
+                                    initialValue={city3}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
                                 />
@@ -179,6 +195,7 @@ function CurrentWeather() {
                                     label="plaats 4"
                                     inputId="city4"
                                     inputName="city4"
+                                    initialValue={city4}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
                                 />
@@ -190,6 +207,7 @@ function CurrentWeather() {
                                     label="plaats 5"
                                     inputId="city5"
                                     inputName="city5"
+                                    initialValue={city5}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
                                 />
@@ -201,6 +219,7 @@ function CurrentWeather() {
                                     label="plaats 6"
                                     inputId="city6"
                                     inputName="city6"
+                                    initialValue={city6}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
                                 />
@@ -262,12 +281,32 @@ function CurrentWeather() {
                 </section>
 
                 <section className="display-data-section">
-                    <button className="button data-button" onClick={handleFetchDataCities}>
-                        data plaatsen ophalen
-                    </button>
+                    { loading && <Loading loadingText ="De gegevens worden opgehaald..."/>}
+                    {errors.length > 0 && (
+                        <div className="error-messages">
+                            <h2>Fouten bij het ophalen van gegevens:</h2>
+                            <ul>
+                                {errors.map((error, index) => (
+                                    <li key={index}>{error.name}: {error.message}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    {cityData.length > 0 && (
+                        <div className="city-data-container">
+                            <h2>Opgehaalde gegevens:</h2>
+                            {cityData.map((data, index) => (
+                                <div key={index} className="city-data-item">
+                                    <h3>{data.name}</h3>
+                                    <ForecastTable
+                                        forecasts = {data.forecasts}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </section>
             </div>
-
         </>
     );
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-async function findCityWeatherData(name) {
+async function findCityWeatherData(name, numberHours) {
     try {
         const apiKey = "c8fd9b357dda6f6f42618f436f5686a7";
         const language = "nl";
@@ -29,7 +29,7 @@ async function findCityWeatherData(name) {
         return {
             name: name,
             geocode: geocodeCity,
-            forecasts: resultWeatherCity.data.list.slice(0, 9) // Eerste 10 uurlijkse voorspellingen
+            forecasts: resultWeatherCity.data.list.slice(0, numberHours) // Eerste 10 uurlijkse voorspellingen
         };
 
     } catch (error) {
