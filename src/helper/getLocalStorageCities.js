@@ -10,22 +10,17 @@ function getLocalStorageCities(allowedKeys){
 
     const allowedKeysSet = new Set(allowedKeys);
 
-    //Alle properties van local storage langsgaan om de waarden van de cities op te halen
+    //Alle properties van local storage langsgaan om de waarden van de cities op te halen corresponderen met de opgegeven keys
     for (let i = 0; i < localStorage.length; i++) {
+        //de key is city1, city2, etc., de waarde van de key wordt gevuld met de naam van een stad
         const key = localStorage.key(i);
         if (allowedKeysSet.has(key)) {
             const stringValue = localStorage.getItem(key);
             // Controleer of de waarde niet null is (item bestaat)
             if (stringValue !== null) {
-                try {
-                    // Probeer te parsen, maar vang fouten op (bijv. als het geen JSON is)
-                    const parsedValue = JSON.parse(stringValue);
-                    resultObject[key] = parsedValue;
-                } catch (error) {
-                    // Als parsen mislukt, sla de ruwe string op
-                    console.warn(`Kon de waarde voor sleutel "${key}" niet parsen als JSON. Opslaan als ruwe string.`, error);
+                    //we hoeven de stringValue niet te parsen als json,
+                    // want we hebben alleen de naam van de stad nodig die is altijd een string
                     resultObject[key] = stringValue;
-                }
             }
         }
     }

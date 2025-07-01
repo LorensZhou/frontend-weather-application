@@ -65,6 +65,7 @@ function CityDetailPage() {
             {/*de voorspellingen worden weergegeven in een tabel*/}
             <ForecastTable
                 forecasts={forecasts}
+                tglAverage={false}
             />
 
             <Link to="/cities" className="back-link">

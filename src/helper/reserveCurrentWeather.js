@@ -2,29 +2,25 @@ import {useEffect, useState} from 'react';
 import './CurrentWeather.css';
 import SearchableInput from '../../components/searchableInput/SearchableInput';
 import cities from '../../constants/cities.js';
+import Input from '../../components/input/Input.jsx';
+import weatherCategories from '../../constants/weatherCategories.js';
 import Button from '../../components/button/Button.jsx';
 import sortedWithoutEmptyString from "../../helper/sortedWithoutEmptyString.js";
 import findCityWeatherData from "../../helper/findCityWeatherData.js";
 import ForecastTable from "../../components/forecastTable/ForecastTable.jsx";
 import Loading from "../../components/loading/Loading.jsx";
-import calcAvgCriteriaValue from "../../helper/calcAvgCriteriaValue.js";
 
 function CurrentWeather() {
     const [searchMethod, setSearchMethod] = useState("");
-    const [sortingDisabled, tglSortingDisabled] = useState(true);
+    const [criteriaDisabled, tglCriteriaDisabled] = useState(true);
     const [cityInputDisabled, tglCityInputDisabled] = useState(true);
-    const [submitBtnDisabled, tglSubmitBtnDisabled] = useState(true);
-    const [searchMethodDisabled, tglSearchMethodDisabled] = useState(false);
-    const [newSearchBtnDisabled, tglNewSearchBtnDisabled] = useState(true);
-
+    const [formBtnDisabled, tglFormBtnDisabled] = useState(true);
     const [loading, tglLoading] = useState(false);
     const [allCitySearchTerms, setAllCitySearchTerms] = useState([]);
     const [cityData, setCityData] = useState([]);
-    const [dataToDisplay, setDataToDisplay] = useState([]); // Data die we willen weergeven na het ophalen
     const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState(12); // Aantal uren voor de voorspelling
     const [errors, setErrors] = useState([]);
-    const [criteria, setCriteria] = useState("temp");
-    const [sortMethod, setSortMethod] = useState("lowToHigh");
+
 
     const cityNames = cities.map((city) => city.name);
 
@@ -35,6 +31,10 @@ function CurrentWeather() {
     const [city5, setCity5] = useState("");
     const [city6, setCity6] = useState("");
 
+    const [selectedWeather, setSelectedWeather] = useState('');
+    const [preferredTemp, setPreferredTemp] = useState('');
+    const [preferredWindSpeed, setPreferredWindSpeed] = useState('');
+
     const handleSearch1 = (value) => setCity1(value);
     const handleSearch2 = (value) => setCity2(value);
     const handleSearch3 = (value) => setCity3(value);
@@ -42,28 +42,9 @@ function CurrentWeather() {
     const handleSearch5 = (value) => setCity5(value);
     const handleSearch6 = (value) => setCity6(value);
 
-    useEffect(() => {
-
-        if (searchMethod === "without-sorting")
-        {
-            tglSortingDisabled(true);
-            tglCityInputDisabled(false);
-            tglSubmitBtnDisabled(false);
-        }
-        else if(searchMethod === "with-sorting")
-        {
-            tglSortingDisabled(false);
-            tglCityInputDisabled(false);
-            tglSubmitBtnDisabled(false);
-        }
-        else if (searchMethod === "")
-        {
-            tglSortingDisabled(true);
-            tglCityInputDisabled(true);
-            tglSubmitBtnDisabled(true);
-        }
-
-    }, [searchMethod]);
+    const handleWeatherChange = (event) => setSelectedWeather(event.target.value);
+    const handleTempChange = (event) => setPreferredTemp(event.target.value);
+    const handleWindChange = (event) => setPreferredWindSpeed(event.target.value);
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent default form submission
@@ -112,48 +93,43 @@ function CurrentWeather() {
         console.log("data succesvol:", fulfilledData);
         console.log("Errors:", rejectedErrors);
         console.log("results", results);
-        console.log("dataToDisplay", dataToDisplay);
 
-        tglSearchMethodDisabled(true);
+        tglCriteriaDisabled(true);
         tglCityInputDisabled(true);
-        tglSortingDisabled(true);
-        tglSubmitBtnDisabled(true);
+        tglFormBtnDisabled(true);
+        setSearchMethod("");
 
-        tglNewSearchBtnDisabled(false);
+        // Reset the input velden voor de plaatsen
+        setCity1("");
+        setCity2("");
+        setCity3("");
+        setCity4("");
+        setCity5("");
+        setCity6("");
     };
 
     useEffect(() => {
-        //bepaal welke data weergeven aan de hand van searchMethod
-        if (searchMethod === "without-sorting") {
-            setDataToDisplay(cityData);
-        } else if (searchMethod === "with-sorting") {
-            const sortedCityData = [...cityData].sort((a, b) => {
-                const avgA = calcAvgCriteriaValue(a.forecasts, criteria);
-                const avgB = calcAvgCriteriaValue(b.forecasts, criteria);
-                if (sortMethod === "lowToHigh") {
-                    return avgA - avgB; // Laag naar hoog
-                }
-                else if (sortMethod === "highToLow") {
-                    return avgB - avgA; // Hoog naar laag
-                }
-            });
-            setDataToDisplay(sortedCityData);
-        }
-    }, [searchMethod, cityData, criteria, sortMethod]);
 
-    function handleNewSearchBtnClick() {
-        tglSearchMethodDisabled(false);
-        if (searchMethod === "without-sorting") {
-            tglCityInputDisabled(false);
-            tglSortingDisabled(true);
-            tglSubmitBtnDisabled(false);
+        if (searchMethod === "without-location")
+        {
+            tglCriteriaDisabled(false);
+            tglCityInputDisabled(true);
+            tglFormBtnDisabled(false);
         }
-        else if (searchMethod === "with-sorting") {
+        else if(searchMethod === "with-location")
+        {
+            tglCriteriaDisabled(false);
             tglCityInputDisabled(false);
-            tglSortingDisabled(false);
-            tglSubmitBtnDisabled(false);
+            tglFormBtnDisabled(false);
         }
-    }
+        else if (searchMethod === "")
+        {
+            tglCriteriaDisabled(true);
+            tglCityInputDisabled(true);
+            tglFormBtnDisabled(true);
+        }
+
+    }, [searchMethod]);
 
     return (
         <>
@@ -166,17 +142,10 @@ function CurrentWeather() {
                 </section>
 
                 <div className="search-method-container">
-                    <label htmlFor="search-method">
-                        zoek methode:
-                    </label>
-                    <select name="search"
-                            id="search-method"
-                            value={searchMethod}
-                            disabled={searchMethodDisabled}
-                            onChange={(e) => setSearchMethod(e.target.value)}>
+                    <select name="search" id="search-method" value={searchMethod} onChange={(e) => setSearchMethod(e.target.value)}>
                         <option value="">--kies een zoekmethode--</option>
-                        <option value="without-sorting">zonder sortering op criteria's</option>
-                        <option value="with-sorting">met sortering op criteria's</option>
+                        <option value="without-location">zoeken zonder locatie</option>
+                        <option value="with-location">zoeken met locatie</option>
                     </select>
                 </div>
 
@@ -253,64 +222,66 @@ function CurrentWeather() {
                                     initialValue={city6}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
-                                 />
+                                />
                             </div>
                         </div>
                         <div className="search-criteria-flex">
                             <div className="search-criteria-wrapper">
                                 <label htmlFor="weatherSelection" className="weather-selection-container">
-                                    Selecteer een sorteer weer-criteria:
+                                    Selecteer het weer:
                                 </label>
-
-                                <select name="criteria"
-                                        id="criteria-selection"
-                                        value={criteria}
-                                        disabled={sortingDisabled}
-                                        onChange={(e) => setCriteria(e.target.value)}>
-                                    <option value="temp">temperatuur</option>
-                                    <option value="feelsLikeTemp">gevoelstemperatuur</option>
-                                    <option value="clouds">bewolking</option>
-                                    <option value="windSpeed">windkracht</option>
-                                    <option value="humidity">luchtvochtigheid</option>
+                                <select
+                                    id="weatherSelection"
+                                    name="weather"
+                                    value={selectedWeather}
+                                    onChange={handleWeatherChange}
+                                    disabled={criteriaDisabled}>
+                                    <option value="">-- Selecteer een optie --</option>
+                                    {weatherCategories.map((category, index) => (
+                                        <option key={`${index}-${category}`} value={category}>
+                                            {category}
+                                        </option>
+                                    ))}
                                 </select>
-                            </div>
-                            <div className="search-criteria-wrapper">
-                                <label htmlFor="sorting-field">sorteer methode:</label>
 
-                                <select name="sorting"
-                                        id="sorting-field"
-                                        value={sortMethod}
-                                        disabled={sortingDisabled}
-                                        onChange={(e) => setSortMethod(e.target.value)}>
-                                    <option value="lowToHigh">laag naar hoog</option>
-                                    <option value="highToLow">hoog naar laag</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="form-button-flex">
-                            <div className="search-criteria-wrapper">
-                                <Button
-                                    type="button"
-                                    className="secondary"
-                                    disabled={newSearchBtnDisabled}
-                                    onClick={handleNewSearchBtnClick}
-                                >Nieuwe Zoekactie
-                                </Button>
                             </div>
                             <div className="search-criteria-wrapper">
-                                <Button
-                                    type="submit"
-                                    className="secondary"
-                                    disabled={submitBtnDisabled}
-                                >Ophalen zoekresultaten
-                                </Button>
+                                <div className="temp-selection-container">
+                                    <Input
+                                        type="number"
+                                        name="temperature"
+                                        labelText="voorkeur temperatuur:"
+                                        required={false}
+                                        value={preferredTemp}
+                                        handleChange={handleTempChange}
+                                        disabled = {criteriaDisabled}/>
+                                </div>
                             </div>
+                            <div className="search-criteria-wrapper">
+                                <Input
+                                    type="number"
+                                    name="weatherCriteria"
+                                    labelText="voorkeur windkracht:"
+                                    required={false}
+                                    value={preferredWindSpeed}
+                                    maxValue={12}
+                                    minValue={0}
+                                    handleChange={handleWindChange}
+                                    disabled = {criteriaDisabled}/>
+                            </div>
+
                         </div>
+                        <Button
+                            type="submit"
+                            className="secundary"
+                            disabled = {formBtnDisabled}
+                        >Ophalen zoekresultaten
+                        </Button>
                     </form>
                 </section>
 
                 <section className="display-data-section">
-                    {loading && <Loading loadingText="De gegevens worden opgehaald..."/>}
+                    { loading && <Loading loadingText ="De gegevens worden opgehaald..."/>}
                     {errors.length > 0 && (
                         <div className="error-messages">
                             <h2>Fouten bij het ophalen van gegevens:</h2>
@@ -321,17 +292,18 @@ function CurrentWeather() {
                             </ul>
                         </div>
                     )}
-
-                    {dataToDisplay.length > 0 && (
+                    {cityData.length > 0 && (
                         <div className="city-data-container">
                             <h2>Opgehaalde gegevens:</h2>
+                            {/*cityData gemiddelde uitrekenen voor elke data met helper*/}
+                            {/*bepalen volgorde welke plaats eerst en verder*/}
+                            {/*cityData bestaat uit: name: name, geocode: geocodeCity, forecasts: resultWeatherCity.data.list.slice(0, numberHours)*/}
 
-                            {dataToDisplay.map((data) => (
-                                <div key={data.name} className="city-data-item">
+                            {cityData.map((data, index) => (
+                                <div key={index} className="city-data-item">
                                     <h3>{data.name}</h3>
                                     <ForecastTable
                                         forecasts = {data.forecasts}
-                                        tglAverage={true}
                                     />
                                 </div>
                             ))}

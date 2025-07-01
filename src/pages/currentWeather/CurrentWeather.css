@@ -41,7 +41,8 @@
 }
 
 .search-inputs-flex,
-.search-criteria-flex{
+.search-criteria-flex,
+.form-button-flex{
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap to the next line */
     gap: 2px; /* Spacing between input wrappers */
@@ -49,12 +50,18 @@
     margin-bottom: 20px;
     flex-direction: row;
     justify-content: center;
-    border: 1px solid var(--background-grey);
+    /*border: 1px solid var(--background-grey);*/
+    border: dashed 2px green;
 }
 
-.search-input-wrapper,
-.search-criteria-wrapper{
+.search-input-wrapper{
     flex-basis: calc(33% - 7.5px); /* Three items per row with spacing */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    margin: 15px 0;
+}
+
+.search-criteria-wrapper{
+    flex-basis: calc(50% - 7.5px); /* two items per row with spacing */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
     margin: 15px 0;
 }
