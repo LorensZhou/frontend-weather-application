@@ -18,7 +18,6 @@ function CurrentWeather() {
     const [newSearchBtnDisabled, tglNewSearchBtnDisabled] = useState(true);
 
     const [loading, tglLoading] = useState(false);
-    const [allCitySearchTerms, setAllCitySearchTerms] = useState([]);
     const [cityData, setCityData] = useState([]);
     const [dataToDisplay, setDataToDisplay] = useState([]); // Data die we willen weergeven na het ophalen
     const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState(12); // Aantal uren voor de voorspelling
@@ -76,9 +75,6 @@ function CurrentWeather() {
             city6,
         ];
 
-        setAllCitySearchTerms(currentAllCitySearchTerms);
-        console.log("All Search Terms:", allCitySearchTerms);
-
         tglLoading(true);
         setCityData([]);
         setErrors([]);
@@ -108,11 +104,6 @@ function CurrentWeather() {
         setCityData(fulfilledData);
         setErrors(rejectedErrors);
         tglLoading(false);
-
-        console.log("data succesvol:", fulfilledData);
-        console.log("Errors:", rejectedErrors);
-        console.log("results", results);
-        console.log("dataToDisplay", dataToDisplay);
 
         tglSearchMethodDisabled(true);
         tglCityInputDisabled(true);
@@ -258,7 +249,7 @@ function CurrentWeather() {
                         </div>
                         <div className="search-criteria-flex">
                             <div className="search-criteria-wrapper">
-                                <label htmlFor="weatherSelection" className="weather-selection-container">
+                                <label htmlFor="criteria-selection" >
                                     Selecteer een sorteer weer-criteria:
                                 </label>
 
@@ -288,22 +279,24 @@ function CurrentWeather() {
                             </div>
                         </div>
                         <div className="form-button-flex">
-                            <div className="search-criteria-wrapper">
-                                <Button
-                                    type="button"
-                                    className="secondary"
-                                    disabled={newSearchBtnDisabled}
-                                    onClick={handleNewSearchBtnClick}
-                                >Nieuwe Zoekactie
-                                </Button>
-                            </div>
-                            <div className="search-criteria-wrapper">
-                                <Button
-                                    type="submit"
-                                    className="secondary"
-                                    disabled={submitBtnDisabled}
-                                >Ophalen zoekresultaten
-                                </Button>
+                            <div className="form-button-inner-flex">
+                                <div className="form-button-container">
+                                    <Button
+                                        type="button"
+                                        className="secondary"
+                                        disabled={newSearchBtnDisabled}
+                                        onClick={handleNewSearchBtnClick}
+                                    >Nieuwe Zoekactie
+                                    </Button>
+                                </div>
+                                <div className="form-button-container">
+                                    <Button
+                                        type="submit"
+                                        className="secondary"
+                                        disabled={submitBtnDisabled}
+                                    >Ophalen zoekresultaten
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </form>

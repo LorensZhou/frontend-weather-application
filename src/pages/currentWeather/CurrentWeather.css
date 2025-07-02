@@ -1,3 +1,10 @@
+/*css reset*/
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
 
 .search-method-container{
     font-size: 24px;
@@ -36,34 +43,53 @@
     border-radius: 8px;
     max-width: none;
     width: 95vw;
-
-    margin: 20px 20px; /* Center the form */
+    margin: 20px 20px;
 }
 
 .search-inputs-flex,
-.search-criteria-flex,
-.form-button-flex{
+.search-criteria-flex{
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    gap: 2px; /* Spacing between input wrappers */
+    flex-wrap: wrap; /* wrappen volgende rij */
+    gap: 2px; /*ruimte tussen wrappers */
     width: 100%;
     margin-bottom: 20px;
     flex-direction: row;
     justify-content: center;
-    /*border: 1px solid var(--background-grey);*/
-    border: dashed 2px green;
+    border: 1px solid var(--background-grey);
 }
 
-.search-input-wrapper{
-    flex-basis: calc(33% - 7.5px); /* Three items per row with spacing */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+.form-button-flex{
+    display: flex;
+    gap: 2px;
+    width: 100%;
+    margin-bottom: 20px;
+    flex-direction: row;
+    justify-content: center;
+    border: 1px solid var(--background-grey);
+}
+
+.form-button-inner-flex{
+    margin-left: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.search-input-wrapper
+{
+    flex-basis: calc(33% - 7.5px); /* drie items per rij  */
     margin: 15px 0;
 }
 
 .search-criteria-wrapper{
-    flex-basis: calc(50% - 7.5px); /* two items per row with spacing */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    flex-basis: calc(45% - 7.5px);
     margin: 15px 0;
+}
+
+.form-button-container{
+    margin: 15px 0;
+    width: 250px;
 }
 
 .search-form-flex .search-container {
@@ -81,10 +107,9 @@
 
 .search-form-flex input[type="text"] {
     padding: 8px;
-    /*border: 1px solid #ddd;*/
     border-radius: 4px;
-    flex-grow: 1; /* Allow input to expand */
-    width: 70px; /* Full width */
+    flex-grow: 1;
+    width: 70px;
     font-size: 20px;
 }
 
@@ -121,16 +146,4 @@
     display: block;
 }
 
-.weather-selection-container{
-    margin-top: 7px;
-}
 
-.temp-selection-container{
-    margin-left: 40px;
-}
-
-.data-button{
-    margin: 0 40px;
-    border: solid 1px black;
-    padding: 5px 10px;
-}

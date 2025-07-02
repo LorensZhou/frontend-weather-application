@@ -13,7 +13,6 @@ function AuthContextProvider( { children } ) {
     status: "pending",
   } );
   const navigate = useNavigate();
-  console.log( "auth1", auth );
 
   // MOUNTING EFFECT
   useEffect( () => {
@@ -56,7 +55,7 @@ function AuthContextProvider( { children } ) {
           Authorization: `Bearer ${ jwtToken }`,
         },
       } );
-      console.log("Gebruiker is ingelogd!:", jwtToken);
+
       // zet de gegevens in de state
       setAuth( {
         isAuth: true,
@@ -67,7 +66,7 @@ function AuthContextProvider( { children } ) {
         },
         status: "done",
       } );
-      console.log("navigate bij login");
+
       // als er een redirectUrl is, ga daarheen
       if ( redirectUrl ) {
         navigate( redirectUrl );
@@ -85,7 +84,6 @@ function AuthContextProvider( { children } ) {
   }
 
   const logout = () =>{
-    console.log( "Gebruiker is uitgelogd!" );
     localStorage.removeItem("token");
     setAuth( {
       isAuth: false,
