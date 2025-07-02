@@ -75,7 +75,7 @@ function NavBar({isAuth, logout}) {
                                 <Button
                                     type="button"
                                     variant = "primary"
-                                    onClick={() => handleNavigation("/forecast")}>
+                                    onClick={() => handleNavigation("/weatherForecasts")}>
                                     zoeken weer voorspelling
                                 </Button>
                                 <Button
