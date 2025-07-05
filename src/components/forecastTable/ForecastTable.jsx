@@ -8,12 +8,12 @@ import windToBeaufortScale from "../../helper/windToBeaufortScale.js";
 import calcAvgCriteriaValue from "../../helper/calcAvgCriteriaValue.js";
 import dutchNumberFormat from "../../helper/dutchNumberFormat.js";
 
-function ForecastTable({ forecasts, tglAverage }) {
-    const averageClouds=dutchNumberFormat(calcAvgCriteriaValue(forecasts, "clouds"));
-    const averageTemp= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "temp"));
-    const averageHumidity= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "humidity"));
-    const averageWindSpeedBeaufort= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "windSpeed"));
-    const averageFeelsLikeTemp= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "feelsLikeTemp"));
+function ForecastTable({ forecasts, tglAverage, tglDailySearch }) {
+    const averageClouds=dutchNumberFormat(calcAvgCriteriaValue(forecasts, "clouds", tglDailySearch));
+    const averageTemp= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "temp", tglDailySearch));
+    const averageHumidity= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "humidity", tglDailySearch));
+    const averageWindSpeedBeaufort= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "windSpeed", tglDailySearch));
+    const averageFeelsLikeTemp= dutchNumberFormat(calcAvgCriteriaValue(forecasts, "feelsLikeTemp", tglDailySearch));
 
     if (!forecasts || forecasts.length === 0) {
         return <p>Geen weersvoorspellingen beschikbaar.
@@ -34,7 +34,8 @@ function ForecastTable({ forecasts, tglAverage }) {
                 </tr>
                 </thead>
                 <tbody>
-                {forecasts.map((forecast) => (
+                {tglDailySearch ?
+                    forecasts.map((forecast) => (
                     <tr key={forecast.dt}>
                         <td>{formatDutchTime(forecast.dt)}</td>
                         <td className="weather-icon-td">
@@ -45,13 +46,32 @@ function ForecastTable({ forecasts, tglAverage }) {
                             />
                         </td>
                         <td>{forecast.weather[0].description}</td>
-                        <td>{forecast.clouds.all}%</td>
-                        <td>{kelvinToCelcius(forecast.main.temp)}°C</td>
-                        <td>{kelvinToCelcius(forecast.main.feels_like)}°C</td>
-                        <td>{forecast.main.humidity}%</td>
-                        <td>{windToBeaufortScale(forecast.wind.speed)}</td>
+                        <td>{forecast.clouds}%</td>
+                        <td>{kelvinToCelcius(forecast.temp.day)}°C</td>
+                        <td>{kelvinToCelcius(forecast.feels_like.day)}°C</td>
+                        <td>{forecast.humidity}%</td>
+                        <td>{windToBeaufortScale(forecast.speed)}</td>
                     </tr>
-                ))}
+                    ))
+                    : forecasts.map((forecast) => (
+                            <tr key={forecast.dt}>
+                                <td>{formatDutchTime(forecast.dt)}</td>
+                                <td className="weather-icon-td">
+                                    <img
+                                        className="weather-icon-style"
+                                        src={urlForWeatherIcon(forecast.weather[0].icon)}
+                                        alt="weer icon"
+                                    />
+                                </td>
+                                <td>{forecast.weather[0].description}</td>
+                                <td>{forecast.clouds.all}%</td>
+                                <td>{kelvinToCelcius(forecast.main.temp)}°C</td>
+                                <td>{kelvinToCelcius(forecast.main.feels_like)}°C</td>
+                                <td>{forecast.main.humidity}%</td>
+                                <td>{windToBeaufortScale(forecast.wind.speed)}</td>
+                            </tr>
+                    ))
+                }
 
                 {/* rij weergeven voor de waarden van gemiddelden */}
                 {tglAverage && <tr className="average-row">

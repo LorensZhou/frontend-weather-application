@@ -3,6 +3,7 @@ import axios from "axios";
 async function findCityWeatherDataDaily(name, numberOfDays) {
     try {
         const language = "nl";
+        const numericNumberOfDays = parseInt(numberOfDays, 10);
 
         // Stap 1: Geocode ophalen
         const resultGeocodes = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=5&appid=${import.meta.env.VITE_API_KEY}`);
@@ -24,11 +25,13 @@ async function findCityWeatherDataDaily(name, numberOfDays) {
         //Stap 2: weer data ophalen
         const resultWeatherCity = await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/daily?lat=${geocodeCity.lat}&lon=${geocodeCity.lon}&appid=${import.meta.env.VITE_API_KEY}&lang=${language}`);
 
+        console.log(`Weersvoorspellingen voor ${name}:`, resultWeatherCity.data.list);
+        console.log("numberOfDays", numberOfDays)
         // Retourneer een object met zowel de geocode als de weersvoorspellingen
         return {
             name: name,
             geocode: geocodeCity,
-            forecasts: resultWeatherCity.data.list.slice(0, numberOfDays) // Eerste 7 dagelijkse voorspellingen
+            forecasts: resultWeatherCity.data.list.slice(0, numericNumberOfDays) //als numberOfDays is 7, betekent eerste 7 dagelijkse voorspellingen (0 t/m 6 entries)
         };
 
     } catch (error) {

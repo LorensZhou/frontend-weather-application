@@ -66,6 +66,7 @@ function CityDetailPage() {
             <ForecastTable
                 forecasts={forecasts}
                 tglAverage={false}
+                tglDailySearch={false}
             />
 
             <Link to="/cities" className="back-link">

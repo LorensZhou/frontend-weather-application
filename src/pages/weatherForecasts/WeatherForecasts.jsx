@@ -20,7 +20,7 @@ function WeatherForecasts() {
     const [loading, tglLoading] = useState(false);
     const [cityData, setCityData] = useState([]);
     const [dataToDisplay, setDataToDisplay] = useState([]); // Data die we willen weergeven na het ophalen
-    const [numberOfDays, setNumberOfDays] = useState(1); // Aantal uren voor de voorspelling
+    const [numberOfDays, setNumberOfDays] = useState("1"); // Aantal dagen voor de voorspelling
     const [errors, setErrors] = useState([]);
     const [criteria, setCriteria] = useState("temp");
     const [sortMethod, setSortMethod] = useState("lowToHigh");
@@ -78,7 +78,6 @@ function WeatherForecasts() {
         tglLoading(true);
         setCityData([]);
         setErrors([]);
-        setNumberOfDays(7);
 
         const citiesWithValues = sortedWithoutEmptyString(currentAllCitySearchTerms);
 
@@ -102,6 +101,10 @@ function WeatherForecasts() {
             }
         });
 
+        console.log("Fulfilled data:", fulfilledData);
+        console.log("Rejected errors:", rejectedErrors);
+        console.log("Results:", results);
+
         setCityData(fulfilledData);
         setErrors(rejectedErrors);
         tglLoading(false);
@@ -120,8 +123,8 @@ function WeatherForecasts() {
             setDataToDisplay(cityData);
         } else if (searchMethod === "with-sorting") {
             const sortedCityData = [...cityData].sort((a, b) => {
-                const avgA = calcAvgCriteriaValue(a.forecasts, criteria);
-                const avgB = calcAvgCriteriaValue(b.forecasts, criteria);
+                const avgA = calcAvgCriteriaValue(a.forecasts, criteria, true);
+                const avgB = calcAvgCriteriaValue(b.forecasts, criteria, true);
                 if (sortMethod === "lowToHigh") {
                     return avgA - avgB; // Laag naar hoog
                 }
@@ -250,7 +253,7 @@ function WeatherForecasts() {
                         </div>
                         <div className="search-criteria-flex">
                             <div className="search-criteria-wrapper">
-                                <label htmlFor="criteria-selection" >
+                                <label htmlFor="criteria-selection">
                                     Selecteer een sorteer weer-criteria:
                                 </label>
 
@@ -276,6 +279,22 @@ function WeatherForecasts() {
                                         onChange={(e) => setSortMethod(e.target.value)}>
                                     <option value="lowToHigh">laag naar hoog</option>
                                     <option value="highToLow">hoog naar laag</option>
+                                </select>
+                            </div>
+                            <div className="search-criteria-wrapper">
+                                <label htmlFor="criteria-selection">
+                                    Selecteer aantal dagen voor de voorspelling:
+                                </label>
+
+                                <select name="criteria"
+                                        id="criteria-selection"
+                                        value={numberOfDays}
+                                        disabled={sortingDisabled}
+                                        onChange={(e) => setNumberOfDays(e.target.value)}>
+                                    <option value="1">1</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                    <option value="7">7</option>
                                 </select>
                             </div>
                         </div>
@@ -326,6 +345,7 @@ function WeatherForecasts() {
                                     <ForecastTable
                                         forecasts = {data.forecasts}
                                         tglAverage={true}
+                                        tglDailySearch={true}
                                     />
                                 </div>
                             ))}

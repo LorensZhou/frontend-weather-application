@@ -46,10 +46,8 @@ function SearchableInput(
 
         setTimeout(() => {
             if (!isSelectingItemRef.current) {
-                console.log("Blurred without selecting. Clearing input.");
                 if (!items.find ((item) => item === event.target.value)){
                     setSearchValue('');
-                    console.log( "target.value komt niet voor in items array.");
                 }
                 togShowSuggestionsDropdown(false);
             } else {

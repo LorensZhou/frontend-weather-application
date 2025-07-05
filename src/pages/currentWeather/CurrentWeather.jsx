@@ -120,8 +120,8 @@ function CurrentWeather() {
             setDataToDisplay(cityData);
         } else if (searchMethod === "with-sorting") {
             const sortedCityData = [...cityData].sort((a, b) => {
-                const avgA = calcAvgCriteriaValue(a.forecasts, criteria);
-                const avgB = calcAvgCriteriaValue(b.forecasts, criteria);
+                const avgA = calcAvgCriteriaValue(a.forecasts, criteria, false);
+                const avgB = calcAvgCriteriaValue(b.forecasts, criteria, false);
                 if (sortMethod === "lowToHigh") {
                     return avgA - avgB; // Laag naar hoog
                 }
@@ -155,7 +155,7 @@ function CurrentWeather() {
                     <p>Hier kunt u zoeken met ingave van locaties voor het weer van huidige moment, gespecificeerd in uren.
                         U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners in Zuid-Holland.
                         Daarnaast kunt u een weercriteria opgeven voor het sorteren van de gegevens.
-                        De locaties worden gesorteerd aan de hand van de weercriteria</p>
+                        De locaties worden gesorteerd aan de hand van de weercriteria.</p>
                 </section>
 
                 <div className="search-method-container">
@@ -327,6 +327,7 @@ function CurrentWeather() {
                                     <ForecastTable
                                         forecasts = {data.forecasts}
                                         tglAverage={true}
+                                        tglDailySearch={false}
                                     />
                                 </div>
                             ))}
