@@ -20,7 +20,7 @@ function CurrentWeather() {
     const [loading, tglLoading] = useState(false);
     const [cityData, setCityData] = useState([]);
     const [dataToDisplay, setDataToDisplay] = useState([]); // Data die we willen weergeven na het ophalen
-    const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState(12); // Aantal uren voor de voorspelling
+    const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState(1); // Aantal uren voor de voorspelling
     const [errors, setErrors] = useState([]);
     const [criteria, setCriteria] = useState("temp");
     const [sortMethod, setSortMethod] = useState("lowToHigh");
@@ -78,6 +78,7 @@ function CurrentWeather() {
         tglLoading(true);
         setCityData([]);
         setErrors([]);
+        setNumbersOfHoursForecast(12);
 
         const citiesWithValues = sortedWithoutEmptyString(currentAllCitySearchTerms);
 
@@ -151,9 +152,10 @@ function CurrentWeather() {
             <div className="current-weather-container">
                 <section className="explanation-text-container">
                     <h1>Zoeken met huidige weer</h1>
-                    <p>Hier kunt u zoeken met ingave van locatie of zonder ingave van locatie voor het weer van huidige moment.
-                        U kunt maximaal 6 locaties opgeven. Als u zoekt zonder locatie, dan worden random 6 locaties voor u geselecteerd. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners in Zuid-Holland.
-                        Daarnaast kunt u minimaal een tot maximaal drie criteria's opgeven voor uw voorkeur van weer.</p>
+                    <p>Hier kunt u zoeken met ingave van locaties voor het weer van huidige moment, gespecificeerd in uren.
+                        U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners in Zuid-Holland.
+                        Daarnaast kunt u een weercriteria opgeven voor het sorteren van de gegevens.
+                        De locaties worden gesorteerd aan de hand van de weercriteria</p>
                 </section>
 
                 <div className="search-method-container">

@@ -4,7 +4,7 @@ import SearchableInput from '../../components/searchableInput/SearchableInput';
 import cities from '../../constants/cities.js';
 import Button from '../../components/button/Button.jsx';
 import sortedWithoutEmptyString from "../../helper/sortedWithoutEmptyString.js";
-import findCityWeatherData from "../../helper/findCityWeatherData.js";
+import findCityWeatherDataDaily from "../../helper/findCityWeatherDataDaily.js";
 import ForecastTable from "../../components/forecastTable/ForecastTable.jsx";
 import Loading from "../../components/loading/Loading.jsx";
 import calcAvgCriteriaValue from "../../helper/calcAvgCriteriaValue.js";
@@ -20,7 +20,7 @@ function WeatherForecasts() {
     const [loading, tglLoading] = useState(false);
     const [cityData, setCityData] = useState([]);
     const [dataToDisplay, setDataToDisplay] = useState([]); // Data die we willen weergeven na het ophalen
-    const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState(12); // Aantal uren voor de voorspelling
+    const [numberOfDays, setNumberOfDays] = useState(1); // Aantal uren voor de voorspelling
     const [errors, setErrors] = useState([]);
     const [criteria, setCriteria] = useState("temp");
     const [sortMethod, setSortMethod] = useState("lowToHigh");
@@ -78,10 +78,11 @@ function WeatherForecasts() {
         tglLoading(true);
         setCityData([]);
         setErrors([]);
+        setNumberOfDays(7);
 
         const citiesWithValues = sortedWithoutEmptyString(currentAllCitySearchTerms);
 
-        const promises = citiesWithValues.map(name => findCityWeatherData(name, numbersOfHoursForecast));
+        const promises = citiesWithValues.map(name => findCityWeatherDataDaily(name, numberOfDays));
 
         //In de results worden alle promises opgeslagen, zowel de fulfilled als de rejected
         const results = await Promise.allSettled(promises);
@@ -151,7 +152,7 @@ function WeatherForecasts() {
             <div className="current-weather-container">
                 <section className="explanation-text-container">
                     <h1>Zoeken met weervoorspellingen op lange termijn</h1>
-                    <p>Hier kunt u zoeken met ingave van locaties voor het weer op lange termijn.
+                    <p>Hier kunt u zoeken met ingave van locaties voor het weer op lange termijn, gespecificeerd in dagen.
                         U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners in Zuid-Holland.
                         Daarnaast kunt u een van de  vijf criteria's opgeven voor het sorteren van de weervoorspellingen voor de locaties.</p>
                 </section>
