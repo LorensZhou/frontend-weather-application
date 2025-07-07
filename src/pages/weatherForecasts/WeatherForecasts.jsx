@@ -101,10 +101,6 @@ function WeatherForecasts() {
             }
         });
 
-        console.log("Fulfilled data:", fulfilledData);
-        console.log("Rejected errors:", rejectedErrors);
-        console.log("Results:", results);
-
         setCityData(fulfilledData);
         setErrors(rejectedErrors);
         tglLoading(false);
@@ -155,9 +151,12 @@ function WeatherForecasts() {
             <div className="current-weather-container">
                 <section className="explanation-text-container">
                     <h1>Zoeken met weervoorspellingen op lange termijn</h1>
-                    <p>Hier kunt u zoeken met ingave van locaties voor het weer op lange termijn, gespecificeerd in dagen.
-                        U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners in Zuid-Holland.
-                        Daarnaast kunt u een van de  vijf criteria's opgeven voor het sorteren van de weervoorspellingen voor de locaties.</p>
+                    <p>Hier kunt u zoeken met ingave van locaties voor het weer op lange termijn, gespecificeerd in
+                        dagen.
+                        U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners
+                        in Zuid-Holland.
+                        Daarnaast kunt u een van de vijf criteria's opgeven voor het sorteren van de weervoorspellingen
+                        voor de locaties.</p>
                 </section>
 
                 <div className="search-method-container">
@@ -172,6 +171,23 @@ function WeatherForecasts() {
                         <option value="">--kies een zoekmethode--</option>
                         <option value="without-sorting">zonder sortering op criteria's</option>
                         <option value="with-sorting">met sortering op criteria's</option>
+                    </select>
+                </div>
+                <div className="number-of-days-container">
+                    <label htmlFor="number-of-days">
+                        Selecteer aantal dagen voor de voorspelling:
+                    </label>
+
+                    <select className="number-of-days-select"
+                            name="numberOfDays"
+                            id="number-of-days"
+                            value={numberOfDays}
+                            disabled={cityInputDisabled}
+                            onChange={(e) => setNumberOfDays(e.target.value)}>
+                        <option value="1">1</option>
+                        <option value="3">3</option>
+                        <option value="5">5</option>
+                        <option value="7">7</option>
                     </select>
                 </div>
 
@@ -281,22 +297,6 @@ function WeatherForecasts() {
                                     <option value="highToLow">hoog naar laag</option>
                                 </select>
                             </div>
-                            <div className="search-criteria-wrapper">
-                                <label htmlFor="criteria-selection">
-                                    Selecteer aantal dagen voor de voorspelling:
-                                </label>
-
-                                <select name="criteria"
-                                        id="criteria-selection"
-                                        value={numberOfDays}
-                                        disabled={sortingDisabled}
-                                        onChange={(e) => setNumberOfDays(e.target.value)}>
-                                    <option value="1">1</option>
-                                    <option value="3">3</option>
-                                    <option value="5">5</option>
-                                    <option value="7">7</option>
-                                </select>
-                            </div>
                         </div>
                         <div className="form-button-flex">
                             <div className="form-button-inner-flex">
@@ -343,7 +343,7 @@ function WeatherForecasts() {
                                 <div key={data.name} className="city-data-item">
                                     <h3>{data.name}</h3>
                                     <ForecastTable
-                                        forecasts = {data.forecasts}
+                                        forecasts={data.forecasts}
                                         tglAverage={true}
                                         tglDailySearch={true}
                                     />
