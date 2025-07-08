@@ -20,7 +20,7 @@ function CurrentWeather() {
     const [loading, tglLoading] = useState(false);
     const [cityData, setCityData] = useState([]);
     const [dataToDisplay, setDataToDisplay] = useState([]); // Data die we willen weergeven na het ophalen
-    const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState(1); // Aantal uren voor de voorspelling
+    const [numbersOfHoursForecast, setNumbersOfHoursForecast] = useState("5"); // Aantal uren voor de voorspelling
     const [errors, setErrors] = useState([]);
     const [criteria, setCriteria] = useState("temp");
     const [sortMethod, setSortMethod] = useState("lowToHigh");
@@ -41,6 +41,8 @@ function CurrentWeather() {
     const handleSearch5 = (value) => setCity5(value);
     const handleSearch6 = (value) => setCity6(value);
 
+    const [searchableInputKey, setSearchableInputKey] = useState(0);
+
     useEffect(() => {
 
         if (searchMethod === "without-sorting")
@@ -60,6 +62,7 @@ function CurrentWeather() {
             tglSortingDisabled(true);
             tglCityInputDisabled(true);
             tglSubmitBtnDisabled(true);
+            tglNewSearchBtnDisabled(true);
         }
 
     }, [searchMethod]);
@@ -78,7 +81,6 @@ function CurrentWeather() {
         tglLoading(true);
         setCityData([]);
         setErrors([]);
-        setNumbersOfHoursForecast(12);
 
         const citiesWithValues = sortedWithoutEmptyString(currentAllCitySearchTerms);
 
@@ -147,13 +149,28 @@ function CurrentWeather() {
         }
     }
 
+    function handleImportCitiesBtnClick(){
+        //plaatsvelden vullen met juiste plaatsnamen
+        setCity1(localStorage.getItem("city1")|| "");
+        setCity2(localStorage.getItem("city2")|| "");
+        setCity3(localStorage.getItem("city3")|| "");
+        setCity4(localStorage.getItem("city4")|| "");
+        setCity5(localStorage.getItem("city5")|| "");
+        setCity6(localStorage.getItem("city6")|| "");
+
+        // Forceer een re-render van de SearchableInput componenten
+        setSearchableInputKey(prevKey => prevKey + 1);
+    }
+
     return (
         <>
             <div className="current-weather-container">
                 <section className="explanation-text-container">
                     <h1>Zoeken met huidige weer</h1>
-                    <p>Hier kunt u zoeken met ingave van locaties voor het weer van huidige moment, gespecificeerd in uren.
-                        U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners in Zuid-Holland.
+                    <p>Hier kunt u zoeken met ingave van locaties voor het weer van huidige moment, gespecificeerd in
+                        uren.
+                        U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners
+                        in Zuid-Holland.
                         Daarnaast kunt u een weercriteria opgeven voor het sorteren van de gegevens.
                         De locaties worden gesorteerd aan de hand van de weercriteria.</p>
                 </section>
@@ -172,12 +189,43 @@ function CurrentWeather() {
                         <option value="with-sorting">met sortering op criteria's</option>
                     </select>
                 </div>
+                <div className="outer-container-button-select">
+                    <div className="number-of-hours-container">
+                        <label htmlFor="number-of-hours">
+                            Selecteer aantal uurlijkse voorspelling:
+                        </label>
+
+                        <select className="number-of-hours-select"
+                                name="numberOfHours"
+                                id="number-of-hours"
+                                value={numbersOfHoursForecast}
+                                disabled={cityInputDisabled}
+                                onChange={(e) => setNumbersOfHoursForecast(e.target.value)}>
+                            <option value="3">3</option>
+                            <option value="5">5</option>
+                            <option value="8">8</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+
+                    <div className="favorite-cities-container">
+                        <Button
+                            type="button"
+                            className="secondary"
+                            disabled={cityInputDisabled}
+                            onClick={handleImportCitiesBtnClick}
+                        >Importeer favoriete plaatsen
+                        </Button>
+                    </div>
+                </div>
+
 
                 <section className="search-section">
                     <form className="search-form-flex" onSubmit={handleSubmit}>
                         <div className="search-inputs-flex">
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city1-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch1}
                                     label="plaats 1"
@@ -190,6 +238,7 @@ function CurrentWeather() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city2-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch2}
                                     label="plaats 2"
@@ -202,6 +251,7 @@ function CurrentWeather() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city3-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch3}
                                     label="plaats 3"
@@ -214,6 +264,7 @@ function CurrentWeather() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city3-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch4}
                                     label="plaats 4"
@@ -226,6 +277,7 @@ function CurrentWeather() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city5-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch5}
                                     label="plaats 5"
@@ -238,6 +290,7 @@ function CurrentWeather() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city6-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch6}
                                     label="plaats 6"
@@ -246,12 +299,12 @@ function CurrentWeather() {
                                     initialValue={city6}
                                     maxSuggestions={20}
                                     disabled={cityInputDisabled}
-                                 />
+                                />
                             </div>
                         </div>
                         <div className="search-criteria-flex">
                             <div className="search-criteria-wrapper">
-                                <label htmlFor="criteria-selection" >
+                                <label htmlFor="criteria-selection">
                                     Selecteer een sorteer weer-criteria:
                                 </label>
 
@@ -325,7 +378,7 @@ function CurrentWeather() {
                                 <div key={data.name} className="city-data-item">
                                     <h3>{data.name}</h3>
                                     <ForecastTable
-                                        forecasts = {data.forecasts}
+                                        forecasts={data.forecasts}
                                         tglAverage={true}
                                         tglDailySearch={false}
                                     />

@@ -25,8 +25,6 @@ async function findCityWeatherDataDaily(name, numberOfDays) {
         //Stap 2: weer data ophalen
         const resultWeatherCity = await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/daily?lat=${geocodeCity.lat}&lon=${geocodeCity.lon}&appid=${import.meta.env.VITE_API_KEY}&lang=${language}`);
 
-        console.log(`Weersvoorspellingen voor ${name}:`, resultWeatherCity.data.list);
-        console.log("numberOfDays", numberOfDays)
         // Retourneer een object met zowel de geocode als de weersvoorspellingen
         return {
             name: name,

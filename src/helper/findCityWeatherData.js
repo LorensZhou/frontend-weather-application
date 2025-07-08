@@ -3,6 +3,7 @@ import axios from "axios";
 async function findCityWeatherData(name, numberHours) {
     try {
         const language = "nl";
+        const numericNumberHours = parseInt(numberHours, 10);
 
         // Stap 1: Geocode ophalen
         const resultGeocodes = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=5&appid=${import.meta.env.VITE_API_KEY}`);
@@ -28,7 +29,7 @@ async function findCityWeatherData(name, numberHours) {
         return {
             name: name,
             geocode: geocodeCity,
-            forecasts: resultWeatherCity.data.list.slice(0, numberHours) // Eerste 10 uurlijkse voorspellingen
+            forecasts: resultWeatherCity.data.list.slice(0, numericNumberHours)
         };
 
     } catch (error) {

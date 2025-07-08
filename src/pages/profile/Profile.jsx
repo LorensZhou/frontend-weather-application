@@ -147,7 +147,7 @@ function Profile() {
                 </section>
             }
             <h2>Opslaan favoriete plaatsen</h2>
-            <p>Hier komt de functionaliteit voor toevoegen, verwijderen en aanpassen van
+            <p>Hier kunt u favoriete plaatsen toevoegen, verwijderen en aanpassen van
                 favoriete plaatsen die kan worden gebruikt voor de zoekfunctie.</p>
             {loading && <Loading loadingText="De data van de gebruiker wordt opgehaald....."/>}
             {error && <ErrorMessage message="Er is een fout opgetreden bij het ophalen van de gebruiker data."/> }
