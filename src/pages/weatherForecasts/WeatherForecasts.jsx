@@ -41,6 +41,10 @@ function WeatherForecasts() {
     const handleSearch5 = (value) => setCity5(value);
     const handleSearch6 = (value) => setCity6(value);
 
+    const [searchableInputKey, setSearchableInputKey] = useState(0); // Key om de component te forceren te re-renderen
+
+
+
     useEffect(() => {
 
         if (searchMethod === "without-sorting")
@@ -60,6 +64,7 @@ function WeatherForecasts() {
             tglSortingDisabled(true);
             tglCityInputDisabled(true);
             tglSubmitBtnDisabled(true);
+            tglNewSearchBtnDisabled(true);
         }
 
     }, [searchMethod]);
@@ -146,6 +151,19 @@ function WeatherForecasts() {
         }
     }
 
+    function handleImportCitiesBtnClick() {
+        //plaatsvelden vullen met juiste plaatsnamen
+        setCity1(localStorage.getItem("city1")|| "");
+        setCity2(localStorage.getItem("city2")|| "");
+        setCity3(localStorage.getItem("city3")|| "");
+        setCity4(localStorage.getItem("city4")|| "");
+        setCity5(localStorage.getItem("city5")|| "");
+        setCity6(localStorage.getItem("city6")|| "");
+
+        // Forceer een re-render van de SearchableInput componenten
+        setSearchableInputKey(prevKey => prevKey + 1);
+    }
+
     return (
         <>
             <div className="current-weather-container">
@@ -173,22 +191,34 @@ function WeatherForecasts() {
                         <option value="with-sorting">met sortering op criteria's</option>
                     </select>
                 </div>
-                <div className="number-of-days-container">
-                    <label htmlFor="number-of-days">
-                        Selecteer aantal dagen voor de voorspelling:
-                    </label>
+                <div className="outer-container-button-select">
+                    <div className="number-of-days-container">
+                        <label htmlFor="number-of-days">
+                            Selecteer aantal dagen voor de voorspelling:
+                        </label>
 
-                    <select className="number-of-days-select"
-                            name="numberOfDays"
-                            id="number-of-days"
-                            value={numberOfDays}
+                        <select className="number-of-days-select"
+                                name="numberOfDays"
+                                id="number-of-days"
+                                value={numberOfDays}
+                                disabled={cityInputDisabled}
+                                onChange={(e) => setNumberOfDays(e.target.value)}>
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                            <option value="5">5</option>
+                            <option value="7">7</option>
+                        </select>
+                    </div>
+
+                    <div className="favorite-cities-container">
+                        <Button
+                            type="button"
+                            className="secondary"
                             disabled={cityInputDisabled}
-                            onChange={(e) => setNumberOfDays(e.target.value)}>
-                        <option value="1">1</option>
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option value="7">7</option>
-                    </select>
+                            onClick={handleImportCitiesBtnClick}
+                        >Importeer favoriete plaatsen
+                        </Button>
+                    </div>
                 </div>
 
                 <section className="search-section">
@@ -196,6 +226,7 @@ function WeatherForecasts() {
                         <div className="search-inputs-flex">
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city1-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch1}
                                     label="plaats 1"
@@ -208,6 +239,7 @@ function WeatherForecasts() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city2-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch2}
                                     label="plaats 2"
@@ -220,6 +252,7 @@ function WeatherForecasts() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city3-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch3}
                                     label="plaats 3"
@@ -232,6 +265,7 @@ function WeatherForecasts() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city4-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch4}
                                     label="plaats 4"
@@ -244,6 +278,7 @@ function WeatherForecasts() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city5-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch5}
                                     label="plaats 5"
@@ -256,6 +291,7 @@ function WeatherForecasts() {
                             </div>
                             <div className="search-input-wrapper">
                                 <SearchableInput
+                                    key={`city6-${searchableInputKey}`}
                                     items={cityNames}
                                     onSearch={handleSearch6}
                                     label="plaats 6"

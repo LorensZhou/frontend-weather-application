@@ -14,6 +14,7 @@ function getLocalStorageCities(allowedKeys){
     for (let i = 0; i < localStorage.length; i++) {
         //de key is city1, city2, etc., de waarde van de key wordt gevuld met de naam van een stad
         const key = localStorage.key(i);
+        // Controleer of de key in de lijst van toegestane keys zit
         if (allowedKeysSet.has(key)) {
             const stringValue = localStorage.getItem(key);
             // Controleer of de waarde niet null is (item bestaat)

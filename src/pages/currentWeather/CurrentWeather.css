@@ -6,10 +6,6 @@
     margin: 10px;
 }
 
-.favorite-cities-container{
-    margin-right: 170px;
-}
-
 .search-method-container select{
     font-size: 20px;
     font-weight: 600;
@@ -40,8 +36,9 @@
     border: none;
 }
 
-
-
+.favorite-cities-container{
+    margin-right: 170px;
+}
 
 .search-container {
     width: 100px;
