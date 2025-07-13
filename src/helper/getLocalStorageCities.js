@@ -3,7 +3,7 @@
 function getLocalStorageCities(allowedKeys){
     const resultObject = {};
     // Controleer of localStorage beschikbaar is (niet in server-side rendering bijv.)
-    if (typeof localStorage === 'undefined') {
+    if (typeof localStorage === "undefined") {
         console.warn("localStorage is niet beschikbaar. Kan items niet ophalen.");
         return resultObject; // Retourneer een leeg object als localStorage niet beschikbaar is
     }

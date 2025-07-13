@@ -1,5 +1,5 @@
-import kelvinToCelcius from "./kelvinToCelcius.js";
-import windToBeaufortScale from "./windToBeaufortScale.js";
+import kelvinToCelcius from './kelvinToCelcius.js';
+import windToBeaufortScale from './windToBeaufortScale.js';
 
 function calcAvgCriteriaValue(forecasts, criteria, tglDailySearch) {
     if (!forecasts || forecasts.length === 0) {

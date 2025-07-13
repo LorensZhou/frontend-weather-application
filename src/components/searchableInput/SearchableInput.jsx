@@ -1,6 +1,6 @@
 
-import React, { useState, useRef, useEffect } from "react"; // Import useRef
-import './SearchableInput.css'
+import React, { useState, useRef, useEffect } from 'react'; // Import useRef
+import './SearchableInput.css';
 
 function SearchableInput(
     {   items,
@@ -13,6 +13,29 @@ function SearchableInput(
         initialValue,
     })
 {
+
+    // Ref om bij te houden of een item wordt geselecteerd
+    const isSelectingItemRef = useRef(false);
+
+    // Ref traceert of het component is mounted
+    const isMountedRef = useRef(false);
+
+    // Ref slaat de timeout id op
+    const blurTimeoutRef = useRef(null);
+
+    useEffect(() => {
+        // zet isMountedRef op true wanneer het component is mounted
+        isMountedRef.current = true;
+        // Cleanup functie wanneer het component unmount
+        return () => {
+            isMountedRef.current = false;
+            // stopt alle pending timeout wanneer het component unmount
+            if (blurTimeoutRef.current) {
+                clearTimeout(blurTimeoutRef.current);
+            }
+        };
+    }, []); // lege dependency array betekent dit wordt uitgevoerd een keer bij mounting en een keer bij unmounting
+
     const [searchValue, setSearchValue] = useState(initialValue || "");
 
     useEffect(() => {
@@ -21,20 +44,20 @@ function SearchableInput(
 
     }, [initialValue]); // <-- Dependency array: deze effect draait als 'initialValue' verandert.
 
-    const [showSuggestionsDropdown, togShowSuggestionsDropdown] = useState(false);
-
-    const isSelectingItemRef = useRef(false);
+    const [showSuggestionsDropdown, tglShowSuggestionsDropdown] = useState(false);
 
     const handleChange = (event) => {
-        setSearchValue(event.target.value);
-        togShowSuggestionsDropdown(true);
+        const newValue = event.target.value;
+        setSearchValue(newValue);
+        onSearch(newValue);
+        tglShowSuggestionsDropdown(true);
         isSelectingItemRef.current = false;
     };
 
     const handleItemClick = (item) => {
         setSearchValue(item);
         onSearch(item);
-        togShowSuggestionsDropdown(false);
+        tglShowSuggestionsDropdown(false);
         isSelectingItemRef.current = false;
     };
 
@@ -44,22 +67,26 @@ function SearchableInput(
 
     const handleBlur = (event) => {
 
-        setTimeout(() => {
-            if (!isSelectingItemRef.current) {
-                if (!items.find ((item) => item === event.target.value)){
-                    setSearchValue('');
-                }
-                togShowSuggestionsDropdown(false);
-            } else {
-                togShowSuggestionsDropdown(false);
-                isSelectingItemRef.current = false;
+        // vorige timeout stoppen om conflicts te vermijden
+        if (blurTimeoutRef.current) {
+            clearTimeout(blurTimeoutRef.current);
+        }
+
+        blurTimeoutRef.current = setTimeout(() => {
+            if (isMountedRef.current && !isSelectingItemRef.current) {
+                tglShowSuggestionsDropdown(false);
+            }
+            // controleer of component is mounted, dan pas status updaten
+            else if (isMountedRef.current) {
+                tglShowSuggestionsDropdown(false);
             }
             isSelectingItemRef.current = false;
+            blurTimeoutRef.current = null; // timeout ref leegmaken na de timeout
         }, 100);
     };
 
     const handleFocus = () => {
-        togShowSuggestionsDropdown(true);
+        tglShowSuggestionsDropdown(true);
         isSelectingItemRef.current = false;
     }
 

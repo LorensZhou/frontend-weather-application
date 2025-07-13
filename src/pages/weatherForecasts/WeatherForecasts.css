@@ -83,7 +83,6 @@
     margin-bottom: 20px;
     flex-direction: row;
     justify-content: center;
-    border: 1px solid var(--background-grey);
 }
 
 .form-button-inner-flex{
@@ -96,7 +95,7 @@
 
 .search-input-wrapper
 {
-    flex-basis: calc(33% - 7.5px); /* drie items per rij  */
+    min-width: 400px;
     margin: 15px 0;
 }
 
@@ -120,15 +119,16 @@
 }
 
 .search-form-flex label {
-    margin-right: 10px;
+    margin: 4px 40px;
 }
 
 .search-form-flex input[type="text"] {
     padding: 8px;
     border-radius: 4px;
     flex-grow: 1;
-    width: 70px;
+    width: 100%;
     font-size: 20px;
+    margin: 4px 40px;
 }
 
 .search-form-flex .dropdown {
@@ -154,6 +154,7 @@
 .search-criteria-flex select{
     font-size: 20px;
     border: 1px solid black;
+    margin: 4px 40px;
 }
 
 .search-criteria-flex input{
@@ -164,4 +165,7 @@
     display: block;
 }
 
+.error-messages{
+    color: red;
+}
 

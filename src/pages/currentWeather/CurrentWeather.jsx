@@ -3,11 +3,11 @@ import './CurrentWeather.css';
 import SearchableInput from '../../components/searchableInput/SearchableInput';
 import cities from '../../constants/cities.js';
 import Button from '../../components/button/Button.jsx';
-import sortedWithoutEmptyString from "../../helper/sortedWithoutEmptyString.js";
-import findCityWeatherData from "../../helper/findCityWeatherData.js";
-import ForecastTable from "../../components/forecastTable/ForecastTable.jsx";
-import Loading from "../../components/loading/Loading.jsx";
-import calcAvgCriteriaValue from "../../helper/calcAvgCriteriaValue.js";
+import sortedWithoutEmptyString from '../../helper/sortedWithoutEmptyString.js';
+import findCityWeatherData from '../../helper/findCityWeatherData.js';
+import ForecastTable from '../../components/forecastTable/ForecastTable.jsx';
+import Loading from '../../components/loading/Loading.jsx';
+import calcAvgCriteriaValue from '../../helper/calcAvgCriteriaValue.js';
 
 function CurrentWeather() {
     const [searchMethod, setSearchMethod] = useState("");
@@ -167,11 +167,11 @@ function CurrentWeather() {
             <div className="current-weather-container">
                 <section className="explanation-text-container">
                     <h1>Zoeken met huidige weer</h1>
-                    <p>Hier kunt u zoeken met ingave van locaties voor het weer van huidige moment, gespecificeerd in
+                    <p>Hier kun je zoeken met ingave van locaties voor het weer van huidige moment, gespecificeerd in
                         uren.
-                        U kunt maximaal 6 locaties opgeven. U kunt alleen zoeken op locatie met meer dan 10.000 inwoners
+                        Je kunt maximaal 6 locaties opgeven. Je kunt alleen zoeken op locatie met meer dan 10.000 inwoners
                         in Zuid-Holland.
-                        Daarnaast kunt u een weercriteria opgeven voor het sorteren van de gegevens.
+                        Daarnaast kun je een weercriteria opgeven voor het sorteren van de gegevens.
                         De locaties worden gesorteerd aan de hand van de weercriteria.</p>
                 </section>
 
@@ -341,7 +341,7 @@ function CurrentWeather() {
                                         className="secondary"
                                         disabled={newSearchBtnDisabled}
                                         onClick={handleNewSearchBtnClick}
-                                    >Nieuwe Zoekactie
+                                    >Nieuwe zoekactie
                                     </Button>
                                 </div>
                                 <div className="form-button-container">

@@ -4,9 +4,9 @@ import './ForecastTable.css';
 import kelvinToCelcius from '../../helper/kelvinToCelcius.js';
 import urlForWeatherIcon from '../../helper/urlForWeatherIcon.js';
 import formatDutchTime from '../../helper/formatDutchTime.js';
-import windToBeaufortScale from "../../helper/windToBeaufortScale.js";
-import calcAvgCriteriaValue from "../../helper/calcAvgCriteriaValue.js";
-import dutchNumberFormat from "../../helper/dutchNumberFormat.js";
+import windToBeaufortScale from '../../helper/windToBeaufortScale.js';
+import calcAvgCriteriaValue from '../../helper/calcAvgCriteriaValue.js';
+import dutchNumberFormat from '../../helper/dutchNumberFormat.js';
 
 function ForecastTable({ forecasts, tglAverage, tglDailySearch }) {
     const averageClouds=dutchNumberFormat(calcAvgCriteriaValue(forecasts, "clouds", tglDailySearch));

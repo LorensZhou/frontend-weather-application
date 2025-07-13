@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 async function findCityWeatherDataDaily(name, numberOfDays) {
     try {

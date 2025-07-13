@@ -3,11 +3,11 @@ import './WeatherForecasts.css';
 import SearchableInput from '../../components/searchableInput/SearchableInput';
 import cities from '../../constants/cities.js';
 import Button from '../../components/button/Button.jsx';
-import sortedWithoutEmptyString from "../../helper/sortedWithoutEmptyString.js";
-import findCityWeatherDataDaily from "../../helper/findCityWeatherDataDaily.js";
-import ForecastTable from "../../components/forecastTable/ForecastTable.jsx";
-import Loading from "../../components/loading/Loading.jsx";
-import calcAvgCriteriaValue from "../../helper/calcAvgCriteriaValue.js";
+import sortedWithoutEmptyString from '../../helper/sortedWithoutEmptyString.js';
+import findCityWeatherDataDaily from '../../helper/findCityWeatherDataDaily.js';
+import ForecastTable from '../../components/forecastTable/ForecastTable.jsx';
+import Loading from '../../components/loading/Loading.jsx';
+import calcAvgCriteriaValue from '../../helper/calcAvgCriteriaValue.js';
 
 function WeatherForecasts() {
     const [searchMethod, setSearchMethod] = useState("");
@@ -42,8 +42,6 @@ function WeatherForecasts() {
     const handleSearch6 = (value) => setCity6(value);
 
     const [searchableInputKey, setSearchableInputKey] = useState(0); // Key om de component te forceren te re-renderen
-
-
 
     useEffect(() => {
 
@@ -95,13 +93,13 @@ function WeatherForecasts() {
         const rejectedErrors = [];
 
         results.forEach(result => {
-            if (result.status === 'fulfilled') {
+            if (result.status === "fulfilled") {
                 fulfilledData.push(result.value); // Hier zit het object { name, geocode, forecasts }
             } else {
                 // result.reason is nu het Error object dat we hebben gegooid
                 const errorObject = result.reason;
-                const cityName = errorObject.cityName || 'Onbekende stad'; //haal de stadsnaam uit de error
-                const errorMessage = errorObject.message || 'Onbekende fout';
+                const cityName = errorObject.cityName || "Onbekende stad"; //haal de stadsnaam uit de error
+                const errorMessage = errorObject.message || "Onbekende fout";
                 rejectedErrors.push({name: cityName, message: errorMessage});
             }
         });

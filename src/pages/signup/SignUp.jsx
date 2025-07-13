@@ -17,29 +17,37 @@ function SignUp() {
   const [error, toggleError] = useState(false);
   const [loading, toggleLoading] = useState(false);
   const navigate = useNavigate();
+  const [errMessage, setErrMessage] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     toggleError(false);
     toggleLoading(true);
+    setErrMessage("");
 
     try {
-      await axios.post("http://localhost:3000/register", {
+        const response =
+          await axios.post("https://frontend-educational-backend.herokuapp.com/api/auth/signup", {
+        username: username,
         email: email,
         password: password,
-        username: username,
-      });
-
-      // Let op: omdat we geen axios Canceltoken gebruiken zul je hier een memory-leak melding krijgen.
-      // Om te zien hoe je een canceltoken implementeerd kun je de bonus-branch bekijken!
+        role: ["user"]
+        });
 
       // als alles goed gegaan is, linken we door naar de login-pagina
       navigate("/signin");
-    } catch(e) {
+    }
+    catch(e) {
       console.error(e);
       toggleError(true);
+      //controleer of de error message aanwezig is in de response van de server
+      if(e.response) {
+            setErrMessage(`Er is iets misgegaan. Probeer het opnieuw. ${e.response}`); // vul de error message met dat van de backend
+      }
+      else {
+            setErrMessage("Er is iets misgegaan. Probeer het opnieuw."); //een generieke error message
+      }
     }
-
     toggleLoading(false);
   }
 
@@ -79,12 +87,13 @@ function SignUp() {
                 id="password-field"
                 name="password"
                 value={password}
+                minLength={6} //aantal karakters van het wachtwoord moet minimaal 6 zijn
                 required={true}
                 handleChange={(e) => setPassword(e.target.value)}
             />
 
           {error && <ErrorMessage
-                   message="Dit account bestaat al. Probeer een ander emailadres."/>}
+                   message={errMessage}/>}
             {loading && <Loading
                          loadingText="Een nieuwe account wordt aangemaakt..."/>}
 

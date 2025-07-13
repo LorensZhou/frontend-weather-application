@@ -42,14 +42,13 @@ function AuthContextProvider( { children } ) {
     // geef de ID, token en redirect-link mee aan de fetchUserData functie (staat hieronder)
     void fetchUserData( decodedToken.sub, jwtToken, "/profile" );
     // link de gebruiker door naar de profielpagina
-    // navigate('/profile');
   }
 
   // Omdat we deze functie in login- en het mounting-effect gebruiken, staat hij hier gedeclareerd!
   const fetchUserData = async ( id, jwtToken, redirectUrl ) =>{
     try {
       // haal gebruikersdata op met de token en id van de gebruiker
-      const response = await axios.get( `http://localhost:3000/600/users/${ id }`, {
+      const response = await axios.get( `https://frontend-educational-backend.herokuapp.com/api/user/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${ jwtToken }`,

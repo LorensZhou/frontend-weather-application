@@ -12,7 +12,6 @@
     border-radius: 8px;
     max-width: none;
     width: 95vw;
-
     margin: 20px 20px; /* Center the form */
 }
 
@@ -28,7 +27,7 @@
 }
 
 .search-input-wrapper {
-    flex-basis: calc(33% - 7.5px); /* Three items per row with spacing */
+    min-width: 400px;
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
     margin: 15px 0;
 }
@@ -43,7 +42,7 @@
 }
 
 .search-form-flex label {
-    margin-right: 10px;
+    margin: 4px 40px;
 }
 
 .search-form-flex input[type="text"] {
@@ -51,8 +50,9 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     flex-grow: 1; /* Allow input to expand */
-    width: 70px; /* Full width */
+    width: 100%;
     font-size: 20px;
+    margin: 4px 40px;
 }
 
 .search-form-flex .dropdown {

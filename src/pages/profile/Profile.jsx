@@ -9,10 +9,9 @@ import getLocalStorageCities from '../../helper/getLocalStorageCities.js';
 import sortedWithoutEmptyString from '../../helper/sortedWithoutEmptyString.js';
 import Loading from '../../components/loading/Loading.jsx';
 import ErrorMessage from '../../components/errorMessage/ErrorMessage.jsx';
-import Button from "../../components/button/Button.jsx";
+import Button from '../../components/button/Button.jsx';
 
 function Profile() {
-    const [profileData, setProfileData] = useState({});
     const { user } = useContext(AuthContext);
     const cityNames = cities.map(city => city.name);
     const cityKeys = ["city1", "city2", "city3", "city4", "city5", "city6"];
@@ -94,13 +93,12 @@ function Profile() {
             const token = localStorage.getItem("token");
 
             try {
-                const result = await axios.get("http://localhost:3000/660/private-content", {
+                const result = await axios.get("https://frontend-educational-backend.herokuapp.com/api/user/", {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                setProfileData(result.data);
             } catch (e) {
                 console.error(e);
                 toggleError(true);
@@ -131,26 +129,18 @@ function Profile() {
 
     return (
         <>
-            <h1>Profielpagina</h1>
             <section>
+                <h2>Profielpagina</h2>
                 <h2>Gegevens</h2>
                 <p><strong>Gebruikersnaam:</strong> {user.username}</p>
                 <p><strong>Email:</strong> {user.email}</p>
             </section>
 
-            {/*Als er keys in ons object zitten hebben we data, en dan renderen we de content*/}
-            {Object.keys(profileData).length > 0 &&
-                <section>
-                    <h2>Strikt geheime profiel-content</h2>
-                    <h3>{profileData.title}</h3>
-                    <p>{profileData.content}</p>
-                </section>
-            }
             <h2>Opslaan favoriete plaatsen</h2>
-            <p>Hier kunt u favoriete plaatsen toevoegen, verwijderen en aanpassen van
-                favoriete plaatsen die kan worden gebruikt voor de zoekfunctie.</p>
+            <p>Hier kun je favoriete plaatsen toevoegen, verwijderen en aanpassen.
+                De favoriete plaatsen kunnen worden gebruikt voor de zoekfunctie.</p>
             {loading && <Loading loadingText="De data van de gebruiker wordt opgehaald....."/>}
-            {error && <ErrorMessage message="Er is een fout opgetreden bij het ophalen van de gebruiker data."/> }
+            {error && <ErrorMessage message="Er is een fout opgetreden bij het ophalen van de gebruiker data."/>}
 
             <section className="search-section">
                 <form className="search-form-flex" onSubmit={handleSubmit}>
@@ -231,7 +221,7 @@ function Profile() {
                     <div className="button-container-flex">
                         <Button type="submit"
                                 variant="secundary"
-                                disabled = {saveBtnDisabled}>Opslaan plaatsen</Button>
+                                disabled={saveBtnDisabled}>Opslaan plaatsen</Button>
                         <Button type="button"
                                 variant="secundary"
                                 onClick={handleEditCities}>Wijzigen plaatsen</Button>
