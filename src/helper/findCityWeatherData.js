@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
 async function findCityWeatherData(name, numberHours) {
     try {
-        const apiKey = "c8fd9b357dda6f6f42618f436f5686a7";
         const language = "nl";
+        const numericNumberHours = parseInt(numberHours, 10);
 
         // Stap 1: Geocode ophalen
-        const resultGeocodes = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=5&appid=${apiKey}`);
+        const resultGeocodes = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=5&appid=${import.meta.env.VITE_API_KEY}`);
 
         const geocodeCity = resultGeocodes.data.find((resultGeocode) => {
             if (resultGeocode.country === "NL" ) {
@@ -23,13 +23,13 @@ async function findCityWeatherData(name, numberHours) {
         }
 
         //Stap 2: weer data ophalen
-        const resultWeatherCity = await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${geocodeCity.lat}&lon=${geocodeCity.lon}&appid=${apiKey}&lang=${language}`);
+        const resultWeatherCity = await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${geocodeCity.lat}&lon=${geocodeCity.lon}&appid=${import.meta.env.VITE_API_KEY}&lang=${language}`);
 
         // Retourneer een object met zowel de geocode als de weersvoorspellingen
         return {
             name: name,
             geocode: geocodeCity,
-            forecasts: resultWeatherCity.data.list.slice(0, numberHours) // Eerste 10 uurlijkse voorspellingen
+            forecasts: resultWeatherCity.data.list.slice(0, numericNumberHours)
         };
 
     } catch (error) {

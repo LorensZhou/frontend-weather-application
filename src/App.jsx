@@ -12,6 +12,7 @@ import NavBar from './components/navbar/NavBar.jsx';
 import CitiesPage from './pages/citiesPage/CitiesPage.jsx';
 import CityDetailPage from './pages/cityDetailPage/CityDetailPage.jsx';
 import NotFound from './pages/notFound/NotFound.jsx';
+import WeatherForecasts from './pages/weatherForecasts/WeatherForecasts.jsx';
 
 function App() {
     const { isAuth, logout } = useContext(AuthContext);
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/signin" element={<SignIn />}/>
                     <Route path="/signup" element={<SignUp />}/>
                     <Route path="/currentWeather" element={<CurrentWeather />}/>
+                    <Route path="/weatherForecasts" element={<WeatherForecasts />}/>
                     <Route path="/cities" element={<CitiesPage />}/>
                     <Route path="/cities/:id" element={<CityDetailPage />}/>
                     <Route path="*" element={<NotFound/>}/>

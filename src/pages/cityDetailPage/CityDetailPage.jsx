@@ -1,12 +1,12 @@
 import {React, useState}  from 'react';
 import './CityDetailPage.css';
 import {Link, useParams} from 'react-router-dom';
-import cities from "../../constants/cities.js";
-import axios from "axios";
-import Button from "../../components/button/Button.jsx";
-import ErrorMessage from "../../components/errorMessage/ErrorMessage.jsx";
-import Loading from "../../components/loading/Loading.jsx";
-import ForecastTable from "../../components/forecastTable/ForecastTable.jsx";
+import cities from '../../constants/cities.js';
+import axios from 'axios';
+import Button from '../../components/button/Button.jsx';
+import ErrorMessage from '../../components/errorMessage/ErrorMessage.jsx';
+import Loading from '../../components/loading/Loading.jsx';
+import ForecastTable from '../../components/forecastTable/ForecastTable.jsx';
 
 function CityDetailPage() {
     const {id} = useParams();
@@ -32,11 +32,10 @@ function CityDetailPage() {
                 }
                 return false;
             });
-            console.log(`lat waarde = ${geocodeCity.lat} en lon waarde = ${geocodeCity.lon}`);
 
             const resultWeatherCity =
-                await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${geocodeCity.lat}&lon=${geocodeCity.lon}&appid=${import.meta.env.VITE_API_KEY}&lang=${language}`)
-            console.log(resultWeatherCity.data.list);
+                await axios.get(`https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${geocodeCity.lat}&lon=${geocodeCity.lon}&appid=${import.meta.env.VITE_API_KEY}&lang=${language}`);
+
             setForecasts(resultWeatherCity.data.list.slice(0, 9));
         }
         catch (error) {
@@ -66,6 +65,7 @@ function CityDetailPage() {
             <ForecastTable
                 forecasts={forecasts}
                 tglAverage={false}
+                tglDailySearch={false}
             />
 
             <Link to="/cities" className="back-link">

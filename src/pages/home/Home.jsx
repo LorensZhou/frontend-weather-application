@@ -12,12 +12,12 @@ function Home() {
       <div className="home-container">
           <section>
           <header className="banner-home">
-              {/*<img src={bgPicture} alt="A mountain landscape" className="background-image"/>*/}
+
           </header>
           </section>
           <div className="content-container">
           <section>
-          <h1>Homepagina</h1>
+          <h1>Home pagina</h1>
               <div className="text-section">
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem id libero provident! Accusantium
                       at autem
@@ -53,10 +53,10 @@ function Home() {
               </div>
           </section>
           <section className="auth-section">
-                  {isAuth && <p>Als je ingelogd bent, bekijk dan de <Link to="/profile">Profielpagina</Link></p>}
-                  <p>Je kunt ook <Link to="/signin">inloggen</Link> of jezelf <Link to="/signup">registeren</Link> als
-                      je nog geen
-                      account hebt.</p>
+                  {isAuth ? <p>Als je ingelogd bent, bekijk dan de <Link to="/profile">Profielpagina</Link></p>
+                      : <p>Je kunt ook <Link to="/signin">inloggen</Link> of jezelf <Link to="/signup">registeren</Link> als
+                      je nog geen account hebt.</p>
+                  }
           </section>
           </div>
       </div>

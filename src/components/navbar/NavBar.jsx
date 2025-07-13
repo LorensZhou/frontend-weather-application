@@ -34,6 +34,7 @@ function NavBar({isAuth, logout}) {
 
     //checken of we op de login pagina zitten
     const isSignInPage = location.pathname === "/signin";
+    const isSignUpPage = location.pathname === "/signup";
 
     return (
         <header>
@@ -62,7 +63,7 @@ function NavBar({isAuth, logout}) {
                         <Button onClick={handleToggle}
                                 type="button"
                                 variant = "primary">
-                            zoek menu
+                            Zoek menu
                         </Button>
                         {isOpen && (
                             <div ref={dropdownRef} className="dropdown-menu">
@@ -75,7 +76,7 @@ function NavBar({isAuth, logout}) {
                                 <Button
                                     type="button"
                                     variant = "primary"
-                                    onClick={() => handleNavigation("/forecast")}>
+                                    onClick={() => handleNavigation("/weatherForecasts")}>
                                     zoeken weer voorspelling
                                 </Button>
                                 <Button
@@ -98,13 +99,14 @@ function NavBar({isAuth, logout}) {
                             Log in
                         </Button>)
                         }
-
+                        {!isSignUpPage && (
                         <Button
                             type="button"
                             variant = "primary"
                             onClick={() => navigate("/signup")}>
                             Registreren
-                        </Button>
+                        </Button>)
+                        }
                     </div>
                     )
                     }
